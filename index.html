@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>शब्दशाही</title>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XCY9XRVMQK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XCY9XRVMQK');
+</script>
+<!-- End Google Analytics -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans Devanagari',Arial,sans-serif;color:#222;background:#f5f4f0;min-height:100vh}
+.screen{display:none;padding:1rem 0.75rem 2rem;max-width:540px;margin:0 auto}
+.screen.active{display:block}
+.card{background:#fff;border:1px solid #e0ddd5;border-radius:12px;padding:1rem 1.25rem;margin-bottom:12px}
+.btn{display:inline-block;padding:8px 16px;border-radius:8px;border:1.5px solid #8B1A1A;background:transparent;color:#8B1A1A;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.btn:hover{background:#8B1A1A;color:#fff}
+.btn-p{background:#8B1A1A;color:#fff}.btn-p:hover{background:#6b1414}
+.btn-b{border-color:#185FA5;color:#185FA5}.btn-b:hover{background:#185FA5;color:#fff}
+.btn-sm{padding:5px 12px;font-size:13px}
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:1rem}
+.menu-btn{padding:14px 8px;font-size:14px;text-align:center;border-radius:10px;border:1.5px solid #8B1A1A;background:transparent;color:#8B1A1A;cursor:pointer;font-family:inherit;font-weight:500;transition:all 0.15s;line-height:1.4}
+.menu-btn:hover{background:#8B1A1A;color:#fff}
+.back{font-size:13px;color:#8B1A1A;cursor:pointer;margin-bottom:12px;display:inline-block}
+.back:hover{text-decoration:underline}
+.slbl{font-size:11px;color:#888;font-weight:500;margin-bottom:4px;letter-spacing:0.4px}
+.grid-outer{position:relative;display:inline-block;margin-left:32px;margin-top:22px;margin-bottom:8px}
+.grid-ct{display:inline-grid;gap:3px}
+.cell{width:46px;height:46px;border:1.5px solid #bbb;border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:500;position:relative;cursor:pointer;transition:all 0.15s;user-select:none}
+.cell.blk{background:#e8e6e0;border-color:transparent;cursor:default;pointer-events:none}
+.cell.filled{background:#EAF3DE;border-color:#3B6D11;color:#27500A}
+.cell.sel{border-color:#8B1A1A;border-width:2.5px;background:#FFF5F5}
+.cell.correct{background:#EAF3DE;border-color:#3B6D11;color:#27500A}
+.cell.wrong{background:#FCEBEB;border-color:#A32D2D;color:#791F1F}
+.cell.revealed{background:#E6F1FB;border-color:#185FA5;color:#0C447C}
+.tiles-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px}
+.tile{min-width:40px;height:40px;padding:0 8px;border:1.5px solid #999;border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:500;cursor:pointer;transition:all 0.15s;user-select:none}
+.tile:hover{border-color:#8B1A1A}
+.tile.csel{background:#EAF3DE;border-color:#3B6D11;color:#27500A}
+.tile.vsel{background:#E6F1FB;border-color:#185FA5;color:#0C447C}
+.tile.used{background:#e8e8e8;border-color:#ccc;color:#bbb;cursor:not-allowed;pointer-events:none}
+.tile.disabled-tile{background:#f0f0f0;border-color:#ddd;color:#aaa;cursor:default;pointer-events:none}
+.jod-circle{width:40px;height:40px;border-radius:50%;background:#185FA5;color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:500}
+.act-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;justify-content:center}
+.ov{min-height:300px;display:flex;align-items:center;justify-content:center;padding:2rem 0}
+.modal{background:#fff;border:1px solid #ddd;border-radius:12px;padding:1.5rem;max-width:320px;width:100%;text-align:center}
+.modal h3{font-size:17px;font-weight:500;margin-bottom:8px}
+.modal p{font-size:13px;color:#666;margin-bottom:1rem;line-height:1.6}
+.clues-section{margin-top:12px;width:100%;max-width:420px}
+.clue-item{font-size:13px;padding:4px 0;border-bottom:1px solid #eee;line-height:1.5;display:flex;gap:8px;align-items:baseline}
+.clue-num{font-weight:600;color:#8B1A1A;min-width:34px;font-size:12px}
+.ri{font-size:13px;padding:5px 0;border-bottom:1px solid #eee;line-height:1.6}
+.rtbl{width:100%;border-collapse:collapse;margin:6px 0;font-size:13px}
+.rtbl td,.rtbl th{padding:4px 8px;border:1px solid #ddd}
+.rtbl th{background:#f5f4f0;font-weight:500}
+.pwrap{display:flex;flex-direction:column;align-items:center}
+.hint-note{font-size:12px;color:#888;margin-top:6px;text-align:center}
+/* Conjunct picker popup */
+.conjunct-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;z-index:100}
+.conjunct-box{background:#fff;border-radius:12px;padding:1.25rem;max-width:280px;width:90%;text-align:center}
+.conjunct-box h4{font-size:14px;font-weight:500;margin-bottom:12px;color:#555}
+.conjunct-options{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.conjunct-opt{min-width:60px;height:52px;border:1.5px solid #8B1A1A;border-radius:8px;background:#fff;font-size:20px;font-weight:500;color:#8B1A1A;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;transition:all 0.15s}
+.conjunct-opt:hover{background:#8B1A1A;color:#fff}
+.conjunct-cancel{margin-top:10px;font-size:12px;color:#aaa;cursor:pointer}
+.conjunct-cancel:hover{color:#8B1A1A}
+</style>
+</head>
+<body>
+
+<!-- WELCOME -->
+<div id="s-welcome" class="screen active">
+<div class="ov"><div class="modal">
+<div style="text-align:center;margin-bottom:12px">
+  <svg width="220" height="82" viewBox="0 0 220 82" style="display:block;margin:0 auto">
+    <text x="108" y="48" text-anchor="middle" font-family="Noto Sans Devanagari,Arial" font-size="36" font-weight="600" fill="none" stroke="#8B1A1A" stroke-width="1" style="letter-spacing:2px">शब्दशाही</text>
+    <text x="108" y="48" text-anchor="middle" font-family="Noto Sans Devanagari,Arial" font-size="36" font-weight="600" fill="#8B1A1A" style="letter-spacing:2px">शब्दशाही</text>
+    <path d="M18,58 Q108,72 198,58" fill="none" stroke="#8B1A1A" stroke-width="1.5"/>
+    <rect x="172" y="2"  width="12" height="12" rx="1" fill="none" stroke="#8B1A1A" stroke-width="1"/>
+    <rect x="186" y="2"  width="12" height="12" rx="1" fill="none" stroke="#8B1A1A" stroke-width="1"/>
+    <rect x="200" y="2"  width="12" height="12" rx="1" fill="none" stroke="#8B1A1A" stroke-width="1"/>
+    <rect x="172" y="16" width="12" height="12" rx="1" fill="none" stroke="#8B1A1A" stroke-width="1"/>
+    <rect x="172" y="30" width="12" height="12" rx="1" fill="none" stroke="#8B1A1A" stroke-width="1"/>
+    <rect x="186" y="30" width="12" height="12" rx="1" fill="none" stroke="#8B1A1A" stroke-width="1"/>
+    <rect x="172" y="44" width="12" height="12" rx="1" fill="none" stroke="#8B1A1A" stroke-width="1"/>
+  </svg>
+</div>
+<p style="font-size:14px;line-height:1.7">"शब्दशाही" च्या संचाकडून आपलं हार्दिक स्वागत! मराठी शब्दांच्या या गमतीदार खेळाचा आस्वाद घ्या!</p>
+<button class="btn btn-p" onclick="go('s-main')" style="margin-top:10px">ठीक आहे</button>
+</div></div>
+</div>
+
+<!-- MAIN MENU -->
+<div id="s-main" class="screen">
+<div style="text-align:center;margin-bottom:1rem">
+  <svg width="260" height="82" viewBox="0 0 260 82" style="display:block;margin:0 auto">
+    <text x="120" y="48" text-anchor="middle" font-family="Noto Sans Devanagari,Arial" font-size="36" font-weight="600" fill="none" stroke="#8B1A1A" stroke-width="1" style="letter-spacing:2px">शब्दशाही</text>
+    <text x="120" y="48" text-anchor="middle" font-family="Noto Sans Devanagari,Arial" font-size="36" font-weight="600" fill="#8B1A1A" style="letter-spacing:2px">शब्दशाही</text>
+    <path d="M10,58 Q120,74 230,58" fill="none" stroke="#8B1A1A" stroke-width="1.5"/>
+    <rect x="210" y="2"  width="12" height="12" rx="1" fill="none" stroke="#8B1A1A" stroke-width="1"/>
+    <rect x="224" y="2"  width="12" height="12" rx="1" fill="none" stroke="#8B1A1A" stroke-width="1"/>
+    <rect x="238" y="2"  width="12" height="12" rx="1" fill="none" stroke="#8B1A1A" stroke-width="1"/>
+    <rect x="210" y="16" width="12" height="12" rx="1" fill="none" stroke="#8B1A1A" stroke-width="1"/>
+    <rect x="210" y="30" width="12" height="12" rx="1" fill="none" stroke="#8B1A1A" stroke-width="1"/>
+    <rect x="224" y="30" width="12" height="12" rx="1" fill="none" stroke="#8B1A1A" stroke-width="1"/>
+    <rect x="210" y="44" width="12" height="12" rx="1" fill="none" stroke="#8B1A1A" stroke-width="1"/>
+  </svg>
+  <div style="font-size:12px;color:#aaa;margin-top:2px;letter-spacing:0.5px">नव्या युगाचे नवे शब्दकोडे</div>
+</div>
+<div class="menu-grid">
+  <button class="menu-btn" onclick="go('s-about')">"शब्दशाही" बद्दल</button>
+  <button class="menu-btn" onclick="startPuzzle('tikode')">आजचे तिकोडे</button>
+  <button class="menu-btn" onclick="go('s-niyam')">खेळाचे नियम</button>
+  <button class="menu-btn" onclick="startPuzzle('chaukode')">आजचे चौकोडे</button>
+  <button class="menu-btn" onclick="go('s-namuna')">नमुना कोडी</button>
+  <button class="menu-btn" onclick="go('s-pure')">आज एवढेच पुरे</button>
+</div>
+</div>
+
+<!-- ABOUT -->
+<div id="s-about" class="screen">
+<span class="back" onclick="go('s-main')">← परत मुख्य मेनू</span>
+<div class="card">
+<div style="font-size:15px;font-weight:500;margin-bottom:8px">"शब्दशाही" बद्दल</div>
+<p style="font-size:14px;line-height:1.8;color:#555">"शब्दशाही" हा नव्या युगाचा, नवीन स्वरूपातला शब्दकोड्यांचा खेळ आहे. आजच्या जमान्यात आपल्या लाडक्या मराठी भाषेचा वापर बराच कमी झालेला आहे. अशा वेळी रोजच्या रोज आपलं मराठी शब्दसामर्थ्य तपासून बघणारा, मेंदूला चालना देणारा आणि थोडक्यात मनोरंजन करणारा असा हा खेळ आहे. "शब्दशाही"चा तुम्ही आस्वाद घ्या, रोज खेळा आणि इतरांनाही खेळायला प्रेरित करा!</p>
+</div>
+<button class="btn" onclick="go('s-main')">परत मुख्य मेनू कडे</button>
+</div>
+
+<!-- RULES -->
+<div id="s-niyam" class="screen">
+<span class="back" onclick="go('s-main')">← परत मुख्य मेनू</span>
+<div class="card">
+<div style="font-size:15px;font-weight:500;margin-bottom:8px">खेळाचे नियम</div>
+<div class="ri">अ. शब्दकोडी दोन प्रकारची असतील. तिकोडे (तीन शब्दांचे कोडे) आणि चौकोडे (चार शब्दांचे कोडे).</div>
+<div class="ri">ब. रोज एक नवीन तिकोडे आणि एक नवीन चौकोडे दिले जाईल.</div>
+<div class="ri">क. प्रत्येक कोड्यासोबत कोड्यातल्या शब्दांना आवश्यक मुळाक्षरे, स्वर आणि जोड दिले जातील. उदा. जर "स्वागत" हा एकच शब्द असेल तर:
+<table class="rtbl" style="margin-top:6px">
+<tr><th>मुळाक्षरे</th><td>ग &nbsp; स &nbsp; त &nbsp; व</td></tr>
+<tr><th>स्वर</th><td>आ (काना)</td></tr>
+<tr><th>जोड</th><td>१</td></tr>
+</table></div>
+<div class="ri">ड. याचा अर्थ ग, स, त आणि व ही मुळाक्षरे, एक काना आणि एक जोड (स्व तयार करण्यासाठी) वापरून हा शब्द तयार होईल.</div>
+<div class="ri">इ. प्रत्येक शब्दाला एक शब्दसंकेत दिलेला असेल. उदा:
+<table class="rtbl" style="margin-top:6px">
+<tr><th>शब्दसंकेत</th><th>शब्द</th></tr>
+<tr><td>छत्री</td><td>पाऊस</td></tr>
+<tr><td>शेतकरी</td><td>नांगर</td></tr>
+<tr><td>डोंगर</td><td>पर्वत</td></tr>
+</table></div>
+<div class="ri">फ. दिलेले शब्दसंकेत, मुळाक्षरे, स्वर आणि जोड वापरून कोड्यातले शब्द ओळखायचे आहेत.</div>
+<div class="ri">ग. कोडे कठीण वाटल्यास 'अक्षर मदत' घेऊ शकता. एका कोड्यात जास्तीत जास्त ३ अक्षरांसाठी मदत मिळेल.</div>
+</div>
+<button class="btn" onclick="go('s-main')">परत मुख्य मेनू कडे</button>
+</div>
+
+<!-- NAMUNA MENU -->
+<div id="s-namuna" class="screen">
+<span class="back" onclick="go('s-main')">← परत मुख्य मेनू</span>
+<div style="display:flex;flex-direction:column;gap:10px;max-width:280px;margin-top:4px">
+  <button class="btn" onclick="startPuzzle('namuna_ti')">नमुना तिकोडे</button>
+  <button class="btn" onclick="startPuzzle('namuna_chau')">नमुना चौकोडे</button>
+  <button class="btn" onclick="go('s-main')">परत मुख्य मेनू कडे</button>
+</div>
+</div>
+
+<!-- PUZZLE SCREEN -->
+<div id="s-puzzle" class="screen">
+<span class="back" id="puzzle-back">← परत</span>
+<div id="puzzle-content"></div>
+</div>
+
+<!-- AAJ PURE -->
+<div id="s-pure" class="screen">
+<div class="ov"><div class="modal">
+<div style="font-size:28px;margin-bottom:8px">🙏</div>
+<h3>आज एवढेच पुरे!</h3>
+<p>"शब्दशाही" खेळल्याबद्दल धन्यवाद! तुमचा दिवस चांगला जाओ! उद्या पुन्हा भेटू!</p>
+<button class="btn btn-p" onclick="closeApp()">ठीक आहे</button>
+</div></div>
+</div>
+
+<!-- RESULT -->
+<div id="s-result" class="screen">
+<div class="ov"><div class="modal" id="result-content"></div></div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════
+//  शब्दशाही — Daily Puzzle Content
+//  ──────────────────────────────────────────────────────────────────
+//  HOW TO ADD A NEW PUZZLE:
+//  1. Scroll to the SHABDSHAHI_PUZZLES section below
+//  2. Copy the template block and fill in your words, tiles and clues
+//  3. Save the file — the app will show today's puzzle automatically
+//
+//  DATE FORMAT: "YYYY-MM-DD"  e.g. "2026-04-10"
+//
+//  EACH WORD NEEDS:
+//    cells — syllables in each box e.g. ['क','ट','क','ट']
+//    dir   — 'across' (→) or 'down' (↓)
+//    row   — which row it starts on (0 = top)
+//    col   — which column it starts on (0 = left)
+//    clue  — the शब्दसंकेत (hint) for this word
+//
+//  VOWEL TILE QUICK REFERENCE:
+//    ा = aa (काना)   ि = i   ी = ee   ु = u   ू = oo
+//    े = e (एकार)   ै = ai   ो = o    ौ = au   ं = anuswara
+// ══════════════════════════════════════════════════════════════════
+
+const SHABDSHAHI_PUZZLES = {
+
+  // ── PUZZLE ENTRY — copy this block to add a new date ─────────────
+  "2026-04-02": {
+    tikode: {
+      cols: 4, rows: 4,
+      layout: [
+        [0, 0, 0, 1],
+        [1, 1, 1, 1],
+        [1, 0, 0, 1],
+        [0, 0, 0, 1]
+      ],
+      words: [
+        { cells: ['क','ट','क','ट'],  dir: 'down',   row: 0, col: 3, clue: 'ताप तोही डोक्याचा' },
+        { cells: ['भ','र','पे','ट'], dir: 'across',  row: 1, col: 0, clue: 'भोजन' },
+        { cells: ['भ','स्म'],        dir: 'down',    row: 1, col: 0, clue: 'ज्वाला' }
+      ],
+      cons: ['म','ट','ट','र','स','क','क','भ','प'],
+      swar: ['े'],
+      jod: 1
+    },
+    chaukode: {
+      cols: 4, rows: 4,
+      layout: [
+        [0, 0, 1, 1],
+        [0, 1, 0, 1],
+        [1, 1, 1, 1],
+        [0, 1, 0, 0]
+      ],
+      words: [
+        { cells: ['सो','म'],          dir: 'across', row: 0, col: 2, clue: 'थंड वार' },
+        { cells: ['म','हा','न'],      dir: 'down',   row: 0, col: 3, clue: 'अतिविशेष' },
+        { cells: ['व','जी','र'],      dir: 'down',   row: 1, col: 1, clue: 'गैरहजर नसेल तरच' },
+        { cells: ['आ','जी','व','न'],  dir: 'across', row: 2, col: 0, clue: 'अख्खे आयुष्य भर?' }
+      ],
+      cons: ['अ','म','र','स','व','व','ह','ज','न'],
+      swar: ['ा','ा','ी','ो'],
+      jod: 0
+    }
+  },
+
+  // ── ADD NEW DATES BELOW — paste a copy of the block above ────────
+  // "2026-04-03": {
+  //   tikode: { ... },
+  //   chaukode: { ... }
+  // },
+
+}; // ← do not delete this line
+
+
+// ── CONJUNCT LOGIC ───────────────────────────────────────────────
+// When two consonants are selected for same cell, show picker.
+// conjunctMap[c1][c2] = [option1, option2]
+// option = { display: 'क्र', cons1: 'क', halant: '्', cons2: 'र' }
+// We store possible combinations; user picks one.
+function makeConjuncts(c1, c2) {
+  // Option A: c1 + ् + c2  (c1 is base, c2 is secondary)
+  // Option B: c2 + ् + c1  (c2 is base, c1 is secondary)
+  return [c1 + '्' + c2, c2 + '्' + c1];
+}
+
+// ── PUZZLE DATA ──────────────────────────────────────────────────
+//
+// आजचे तिकोडे (actual puzzle from document):
+//   Grid 4 cols × 4 rows
+//   Layout:
+//     row0: blk blk blk [क]   ← word1↓ starts
+//     row1: [भ] [र] [पे] [ट]  ← word2→; (1,3)=ट shared with word1↓
+//     row2: [स्म] blk blk [क] ← word3↓ continues from (1,0); word1↓ continues
+//     row3: blk blk blk [ट]   ← word1↓ ends
+//
+//   Word 1↓ col=3: क(0,3)|ट(1,3)|क(2,3)|ट(3,3) → कटकट  शब्दसंकेत: ताप तोही डोक्याचा
+//   Word 2→ row=1: भ(1,0)|र(1,1)|पे(1,2)|ट(1,3) → भरपेट  शब्दसंकेत: भोजन
+//   Word 3↓ col=0: भ(1,0)|स्म(2,0) → भस्म  शब्दसंकेत: ज्वाला
+//   Shared: (1,3)=ट  (1,0)=भ
+//
+//   Tiles:
+//     Consonants: म ट ट र स क क भ प  (ट twice, क twice)
+//     Vowels: े  (for पे)
+//     जोड: 1  (for स्म = स्+म)
+
+// ── LOAD TODAY'S PUZZLE FROM CONTENT FILE ──────────────────────
+// Gets today's date string and looks it up in SHABDSHAHI_PUZZLES.
+// Falls back to the most recent available date if today isn't found.
+function getTodaysPuzzles() {
+  const today = new Date();
+  const dateStr = today.getFullYear() + '-' +
+    String(today.getMonth()+1).padStart(2,'0') + '-' +
+    String(today.getDate()).padStart(2,'0');
+
+  // Try exact match first
+  if (SHABDSHAHI_PUZZLES[dateStr]) return { date: dateStr, ...SHABDSHAHI_PUZZLES[dateStr] };
+
+  // Fall back to most recent past date available
+  const dates = Object.keys(SHABDSHAHI_PUZZLES).sort();
+  const past = dates.filter(d => d <= dateStr);
+  if (past.length) {
+    const d = past[past.length - 1];
+    return { date: d, ...SHABDSHAHI_PUZZLES[d] };
+  }
+  // If nothing, use the first available
+  return { date: dates[0], ...SHABDSHAHI_PUZZLES[dates[0]] };
+}
+
+function makePuzzleEntry(rawData, label, namuna) {
+  return {
+    label, namuna,
+    cols:  rawData.cols,
+    rows:  rawData.rows,
+    layout:rawData.layout,
+    words: rawData.words,
+    cons:  rawData.cons,
+    swar:  rawData.swar,
+    jod:   rawData.jod
+  };
+}
+
+const _today = getTodaysPuzzles();
+
+const PD = {
+  tikode:  makePuzzleEntry(_today.tikode,  'आजचे तिकोडे',  false),
+  chaukode:makePuzzleEntry(_today.chaukode,'आजचे चौकोडे', false),
+
+  // ── नमुना तिकोडे ──
+  namuna_ti: {
+    label:'नमुना तिकोडे', namuna:true,
+    cols:4, rows:4,
+    layout:[
+      [0,1,0,0],
+      [1,1,1,1],
+      [0,1,0,1],
+      [0,0,0,1]
+    ],
+    words:[
+      {cells:['व','रा','त'],     dir:'down',  row:0, col:1, clue:'विवाह'},
+      {cells:['प','रा','भ','व'], dir:'across',row:1, col:0, clue:'सामना'},
+      {cells:['व','ज','न'],      dir:'down',  row:1, col:3, clue:'जड'}
+    ],
+    cons:['भ','न','प','व','र','त','ज'], swar:['ा'], jod:0
+  },
+
+  // ── नमुना चौकोडे ──
+  namuna_chau: {
+    label:'नमुना चौकोडे', namuna:true,
+    cols:5, rows:4,
+    layout:[
+      [0,0,1,1,1],
+      [0,0,1,0,0],
+      [1,1,1,1,0],
+      [0,1,0,0,0]
+    ],
+    words:[
+      {cells:['स','त्का','र'],   dir:'down',  row:0, col:2, clue:'समारंभ'},
+      {cells:['स','का','ळ'],     dir:'across',row:0, col:2, clue:'सुप्रभात'},
+      {cells:['आ','व','र','ण'],  dir:'across',row:2, col:0, clue:'वेष्टन'},
+      {cells:['व','ही'],         dir:'down',  row:2, col:1, clue:'लेखन'}
+    ],
+    cons:['अ','व','र','स','ण','त','ह','क','क','ळ'], swar:['ा','ा','ा','ी'], jod:1
+  }
+};
+
+const MATRA={
+  'े':'े','ा':'ा','ि':'ि','ी':'ी','ु':'ु','ू':'ू','ै':'ै','ो':'ो','ौ':'ौ','ं':'ं'
+};
+
+let S={};
+let CP={active:false, cellKey:null, existingConsTk:null, newConsTk:null, newCons:null, vowelToApply:null};
+
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const existing=document.getElementById('conjunct-overlay');
+  if(existing) existing.remove();
+}
+
+// Auto-number words top-to-bottom, left-to-right by their start cell.
+// A cell gets a number if it is the start of ANY word (across or down).
+// Each unique start cell gets one number; both directions at that cell share it.
+function autoNumber(p){
+  // Collect all unique start cells sorted top→bottom, left→right
+  const startCells={};
+  p.words.forEach(w=>{
+    const key=w.row+','+w.col;
+    if(!startCells[key]) startCells[key]={row:w.row, col:w.col, dirs:[]};
+    startCells[key].dirs.push(w.dir);
+  });
+  const sorted=Object.values(startCells).sort((a,b)=>a.row!==b.row?a.row-b.row:a.col-b.col);
+  const numMap={};
+  sorted.forEach((sc,i)=>{ numMap[sc.row+','+sc.col]=i+1; });
+  return numMap;
+}
+
+function buildGrid(p){
+  const numMap=autoNumber(p);
+  const g={};
+  p.words.forEach(w=>{
+    w.cells.forEach((ch,i)=>{
+      const r=w.dir==='down'?w.row+i:w.row;
+      const c=w.dir==='across'?w.col+i:w.col;
+      const k=r+','+c;
+      if(!g[k]) g[k]={answer:ch, num:null};
+      if(i===0) g[k].num=numMap[w.row+','+w.col];
+    });
+  });
+  return g;
+}
+
+function startPuzzle(type){
+  const p=PD[type];
+  S={type, grid:buildGrid(p), cellData:{},
+     selCons:null, selConsTk:null,
+     selMatra:null, selMatraTk:null,
+     selCell:null, hints:0};
+  const isNamuna=p.namuna;
+  document.getElementById('puzzle-back').textContent=isNamuna?'← परत नमुना कोडी':'← परत मुख्य मेनू';
+  document.getElementById('puzzle-back').onclick=()=>go(isNamuna?'s-namuna':'s-main');
+  renderPuzzle(type);
+  go('s-puzzle');
+}
+
+function renderPuzzle(type){
+  const p=PD[type], g=S.grid, el=document.getElementById('puzzle-content');
+  el.innerHTML='';
+  const wrap=document.createElement('div'); wrap.className='pwrap';
+
+  const ttl=document.createElement('div');
+  ttl.style.cssText='font-size:15px;font-weight:500;margin-bottom:6px;text-align:center';
+  ttl.textContent=p.label; wrap.appendChild(ttl);
+
+  // Grid
+  const CELL=49;
+  const gridOuter=document.createElement('div'); gridOuter.className='grid-outer';
+  const gridEl=document.createElement('div'); gridEl.className='grid-ct';
+  gridEl.style.gridTemplateColumns=`repeat(${p.cols},46px)`;
+
+  for(let r=0;r<p.rows;r++) for(let c=0;c<p.cols;c++){
+    const cell=document.createElement('div'), k=r+','+c;
+    cell.className='cell';
+    if(!g[k]){cell.classList.add('blk');}
+    else{
+      cell.id='c-'+k;
+      if(!p.namuna) cell.addEventListener('click',()=>onCell(k));
+    }
+    gridEl.appendChild(cell);
+  }
+  gridOuter.appendChild(gridEl);
+
+  // Word labels outside grid — using auto-numbering
+  // Group words by start cell so we can combine labels when two words share a start
+  const numMap=autoNumber(p);
+  const labelsByCell={};
+  p.words.forEach(w=>{
+    const key=w.row+','+w.col;
+    if(!labelsByCell[key]) labelsByCell[key]={row:w.row, col:w.col, dirs:[]};
+    labelsByCell[key].dirs.push(w.dir);
+  });
+  Object.values(labelsByCell).forEach(sc=>{
+    const num=numMap[sc.row+','+sc.col];
+    // Build label text: e.g. "1→" or "2↓" or "3→↓" if both start here
+    const hasAcross=sc.dirs.includes('across');
+    const hasDown=sc.dirs.includes('down');
+    const arrows=(hasAcross?'→':'')+(hasDown?'↓':'');
+    const lbl=document.createElement('div');
+    lbl.style.cssText='position:absolute;font-size:10px;font-weight:600;color:#8B1A1A;line-height:1;white-space:nowrap;pointer-events:none';
+    lbl.textContent=`${num}${arrows}`;
+    if(hasAcross && !hasDown){
+      // Across only — place to the left of the starting cell
+      lbl.style.top=(sc.row*CELL+18)+'px';
+      lbl.style.left='-28px';
+    } else {
+      // Down (or both) — place above the starting cell
+      lbl.style.top='-15px';
+      lbl.style.left=(sc.col*CELL+12)+'px';
+    }
+    gridOuter.appendChild(lbl);
+  });
+  wrap.appendChild(gridOuter);
+
+  // Tiles
+  const tw=document.createElement('div'); tw.style.cssText='margin-top:14px;width:100%;max-width:440px';
+  tw.appendChild(mkTileSection('मुळाक्षरे',p.cons,'m',false,p.namuna));
+  tw.appendChild(mkTileSection('स्वर',p.swar,'s',true,p.namuna));
+  const js=document.createElement('div'); js.style.marginBottom='8px';
+  const jl=document.createElement('div'); jl.className='slbl'; jl.textContent='जोड'; js.appendChild(jl);
+  const jr=document.createElement('div'); jr.className='tiles-row';
+  const jc=document.createElement('div'); jc.className='jod-circle'; jc.textContent=p.jod;
+  jr.appendChild(jc); js.appendChild(jr); tw.appendChild(js);
+  wrap.appendChild(tw);
+
+  if(!p.namuna){
+    const hn=document.createElement('div'); hn.className='hint-note';
+    hn.textContent='मुळाक्षर निवडा → (वैकल्पिक: स्वर / दुसरे मुळाक्षर) → चौकोन निवडा';
+    wrap.appendChild(hn);
+  }
+
+  // Action buttons
+  const ar=document.createElement('div'); ar.className='act-row';
+  if(!p.namuna){
+    mkBtn(ar,'हे अक्षर पुसा','btn btn-sm btn-b',pusaEk);
+    mkBtn(ar,'सगळी अक्षरे पुसा','btn btn-sm btn-b',pusaSagli);
+    const mb=mkBtn(ar,'अक्षर मदत (3)','btn btn-sm',aksharMadat);
+    mb.id='madat-btn';
+    mkBtn(ar,'सादर करा','btn btn-p btn-sm',sadar);
+    mkBtn(ar,'उत्तर दाखवा','btn btn-sm',doReveal);
+    mkBtn(ar,'परत मुख्य मेनू','btn btn-sm',()=>go('s-main'));
+  } else {
+    mkBtn(ar,'उत्तर दाखवा','btn btn-p btn-sm',doReveal);
+    mkBtn(ar,'परत नमुना कोडी','btn btn-sm',()=>go('s-namuna'));
+    mkBtn(ar,'परत मुख्य मेनू','btn btn-sm',()=>go('s-main'));
+  }
+  wrap.appendChild(ar);
+
+  // शब्दसंकेत — built from auto-numbering + word clues (reuses numMap from above)
+  const cs=document.createElement('div'); cs.className='clues-section';
+  const clbl=document.createElement('div'); clbl.className='slbl'; clbl.textContent='शब्दसंकेत'; cs.appendChild(clbl);
+
+  // Sort words by their auto-assigned number, then by direction (across before down for same number)
+  const sortedWords=[...p.words].sort((a,b)=>{
+    const na=numMap[a.row+','+a.col], nb=numMap[b.row+','+b.col];
+    if(na!==nb) return na-nb;
+    // Same start cell: across first, then down
+    return a.dir==='across'?-1:1;
+  });
+  sortedWords.forEach(w=>{
+    const num=numMap[w.row+','+w.col];
+    const arrow=w.dir==='across'?'→':'↓';
+    const item=document.createElement('div'); item.className='clue-item';
+    const ns=document.createElement('span'); ns.className='clue-num'; ns.textContent=`${num}${arrow}`;
+    const tx=document.createElement('span'); tx.textContent=w.clue||'';
+    item.appendChild(ns); item.appendChild(tx); cs.appendChild(item);
+  });
+  wrap.appendChild(cs);
+  el.appendChild(wrap);
+}
+
+function mkTileSection(label,letters,prefix,isVowel,disabled){
+  const sec=document.createElement('div'); sec.style.marginBottom='8px';
+  const lbl=document.createElement('div'); lbl.className='slbl'; lbl.textContent=label; sec.appendChild(lbl);
+  const row=document.createElement('div'); row.className='tiles-row';
+  letters.forEach((lt,i)=>{
+    const tk=`${prefix}_${i}_${lt}`;
+    const tile=document.createElement('div');
+    tile.className='tile'+(disabled?' disabled-tile':'');
+    tile.textContent=lt; tile.dataset.letter=lt; tile.id='t-'+tk;
+    if(!disabled) tile.addEventListener('click',()=>onTile(tk,lt,isVowel,tile));
+    row.appendChild(tile);
+  });
+  sec.appendChild(row); return sec;
+}
+
+function mkBtn(parent,label,cls,fn){
+  const b=document.createElement('button'); b.className=cls; b.style.fontFamily='inherit';
+  b.textContent=label; b.addEventListener('click',fn); parent.appendChild(b); return b;
+}
+
+function getCell(k){return document.getElementById('c-'+k);}
+function getTile(tk){return document.getElementById('t-'+tk);}
+
+function clearSel(){
+  if(S.selConsTk){const t=getTile(S.selConsTk);if(t)t.classList.remove('csel');}
+  if(S.selMatraTk){const t=getTile(S.selMatraTk);if(t)t.classList.remove('vsel');}
+  S.selCons=null; S.selConsTk=null; S.selMatra=null; S.selMatraTk=null;
+}
+
+function onTile(tk, letter, isVowel, tile){
+  if(tile.classList.contains('used')||tile.classList.contains('disabled-tile')) return;
+
+  if(!isVowel){
+    // ── CONSONANT TILE SELECTED ──
+    if(S.selConsTk===tk){ clearSel(); return; } // deselect same tile
+
+    // Cell already selected + cell already has a consonant → conjunct picker
+    if(S.selCell && S.cellData[S.selCell] && !S.selCons){
+      const existing=S.cellData[S.selCell];
+      const existingDisplay=existing.display;
+      const isSingleCons=existingDisplay.length<=2 && !Object.values(MATRA).some(m=>m&&existingDisplay.endsWith(m));
+      if(isSingleCons && existing.ctk){
+        showConjunctPicker(S.selCell, existing.display, existing.ctk, letter, tk, null);
+        return;
+      }
+    }
+    // Two consonants selected in a row → conjunct picker (cell to be chosen after)
+    if(S.selCons){
+      showConjunctPicker(null, S.selCons, S.selConsTk, letter, tk, S.selMatra);
+      return;
+    }
+    // Normal first consonant selection
+    if(S.selConsTk){const p=getTile(S.selConsTk);if(p)p.classList.remove('csel');}
+    if(S.selMatraTk){const p=getTile(S.selMatraTk);if(p)p.classList.remove('vsel');}
+    tile.classList.add('csel');
+    S.selCons=letter; S.selConsTk=tk; S.selMatra=null; S.selMatraTk=null;
+
+  } else {
+    // ── VOWEL TILE SELECTED ──
+    // Deselect same vowel tile
+    if(S.selMatraTk===tk){ tile.classList.remove('vsel'); S.selMatra=null; S.selMatraTk=null; return; }
+    if(S.selMatraTk){const p=getTile(S.selMatraTk);if(p)p.classList.remove('vsel');}
+    tile.classList.add('vsel'); S.selMatra=letter; S.selMatraTk=tk;
+    // No warning — vowel can be selected freely, just like a consonant.
+    // Validation happens in placeToCell when the box is chosen.
+  }
+
+  // If a cell is already selected, place immediately
+  if(S.selCell && (S.selCons||S.selMatra)) placeToCell();
+}
+
+function onCell(k){
+  if(S.selCons||S.selMatra){
+    S.selCell=k;
+    // Consonant + cell already has consonant → conjunct picker
+    if(S.selCons && S.cellData[k] && !S.selMatra){
+      const existing=S.cellData[k];
+      const existingDisplay=existing.display;
+      const hasNoMatra=!Object.values(MATRA).some(m=>m&&existingDisplay.endsWith(m));
+      if(existing.ctk && hasNoMatra && existingDisplay.length<=2){
+        showConjunctPicker(k, existingDisplay, existing.ctk, S.selCons, S.selConsTk, null);
+        return;
+      }
+    }
+    placeToCell();
+    return;
+  }
+  // No tile selected — just select the cell (ready for tile selection next)
+  document.querySelectorAll('.cell:not(.blk)').forEach(c=>c.classList.remove('sel'));
+  const cell=getCell(k); if(cell)cell.classList.add('sel');
+  S.selCell=k;
+}
+
+// Helper: combine a consonant letter + matra into the correct display string.
+// Special case: अ + ा = आ  (and other अ combinations)
+function combineConsVowel(cons, matraKey){
+  const matra=MATRA[matraKey]||matraKey;
+  // Special fusions for अ
+  const AFUSIONS={'ा':'आ','ि':'इ','ी':'ई','ु':'उ','ू':'ऊ','े':'ए','ै':'ऐ','ो':'ओ','ौ':'औ','ं':'अं'};
+  if(cons==='अ' && AFUSIONS[matra]) return AFUSIONS[matra];
+  if(cons==='अ' && matra==='') return 'अ';
+  return cons+matra;
+}
+
+function placeToCell(){
+  const k=S.selCell; if(!k) return;
+  if(!S.selCons && !S.selMatra) return;
+
+  // ── VOWEL-ONLY (no consonant selected) ──
+  if(!S.selCons && S.selMatra){
+    const existing=S.cellData[k];
+    // Block if cell has no consonant
+    if(!existing || !existing.ctk){
+      showToast('आधी मुळाक्षर निवडा');
+      if(S.selMatraTk){const t=getTile(S.selMatraTk);if(t)t.classList.remove('vsel');}
+      S.selMatra=null; S.selMatraTk=null; S.selCell=null;
+      return;
+    }
+    // Block if cell already has a vowel, unless one of them is anuswara
+    const ANUSWARA='ं';
+    const newMatra=MATRA[S.selMatra]||S.selMatra;
+    if(existing.vtk){
+      const evTile=getTile(existing.vtk);
+      const existingMatra=evTile?(MATRA[evTile.dataset.letter]||evTile.dataset.letter):'';
+      if(newMatra!==ANUSWARA && existingMatra!==ANUSWARA){
+        showToast('एका चौकोनात एकच स्वर वापरता येतो');
+        if(S.selMatraTk){const t=getTile(S.selMatraTk);if(t)t.classList.remove('vsel');}
+        S.selMatra=null; S.selMatraTk=null; S.selCell=null;
+        return;
+      }
+    }
+    // Add matra to existing consonant — use combineConsVowel for अ special case
+    const baseCons=existing.display; // current cell content (consonant part)
+    const updatedDisplay=combineConsVowel(baseCons, S.selMatra);
+    existing.display=updatedDisplay; existing.vtk=S.selMatraTk;
+    const cell=getCell(k);
+    if(cell){const num=cell.querySelector('.cnum');cell.textContent=updatedDisplay;if(num)cell.appendChild(num);cell.classList.add('filled');cell.classList.remove('sel');}
+    const vt=getTile(S.selMatraTk);if(vt){vt.classList.add('used');vt.classList.remove('vsel');}
+    S.selMatra=null; S.selMatraTk=null; S.selCell=null;
+    return;
+  }
+
+  // ── CONSONANT (+ optional vowel) PLACEMENT ──
+  let display='';
+  if(S.selCons && S.selMatra){
+    display=combineConsVowel(S.selCons, S.selMatra);
+  } else {
+    display=S.selCons;
+  }
+  if(!display) return;
+
+  // Free tiles from existing cell
+  const existing=S.cellData[k];
+  if(existing){
+    if(existing.ctk){const t=getTile(existing.ctk);if(t)t.classList.remove('used','csel');}
+    if(existing.vtk){const t=getTile(existing.vtk);if(t)t.classList.remove('used','vsel');}
+    if(existing.ctk2){const t=getTile(existing.ctk2);if(t)t.classList.remove('used','csel');}
+  }
+
+  S.cellData[k]={display, ctk:S.selConsTk, vtk:S.selMatraTk, ctk2:null};
+  const cell=getCell(k);
+  if(cell){const num=cell.querySelector('.cnum');cell.textContent=display;if(num)cell.appendChild(num);cell.classList.add('filled');cell.classList.remove('correct','wrong','sel');}
+  if(S.selConsTk){const t=getTile(S.selConsTk);if(t){t.classList.add('used');t.classList.remove('csel');}}
+  if(S.selMatraTk){const t=getTile(S.selMatraTk);if(t){t.classList.add('used');t.classList.remove('vsel');}}
+  clearSel(); S.selCell=null;
+}
+
+// ── CONJUNCT PICKER ──────────────────────────────────────────────
+function showConjunctPicker(cellKey, existingCons, existingTk, newCons, newTk, vowelMatra){
+  // Remove any existing overlay
+  const prev=document.getElementById('conjunct-overlay');
+  if(prev) prev.remove();
+
+  const options=makeConjuncts(existingCons, newCons);
+  const overlay=document.createElement('div');
+  overlay.className='conjunct-overlay'; overlay.id='conjunct-overlay';
+
+  const box=document.createElement('div'); box.className='conjunct-box';
+  const h=document.createElement('h4');
+  h.textContent=`"${existingCons}" + "${newCons}" — जोडाक्षर निवडा`;
+  box.appendChild(h);
+
+  const optRow=document.createElement('div'); optRow.className='conjunct-options';
+  options.forEach(opt=>{
+    const finalDisplay=vowelMatra ? opt+(MATRA[vowelMatra]||vowelMatra) : opt;
+    const btn=document.createElement('button');
+    btn.className='conjunct-opt'; btn.textContent=finalDisplay; btn.style.fontFamily='inherit';
+    btn.onclick=()=>{
+      overlay.remove();
+      placeConjunct(cellKey||S.selCell, finalDisplay, existingTk, newTk, vowelMatra?S.selMatraTk:null);
+      // Clear selections after placing
+      clearSel(); S.selCell=null;
+    };
+    optRow.appendChild(btn);
+  });
+  box.appendChild(optRow);
+
+  const cancel=document.createElement('div');
+  cancel.className='conjunct-cancel'; cancel.textContent='रद्द करा';
+  cancel.onclick=()=>{overlay.remove(); clearSel();};
+  box.appendChild(cancel);
+  overlay.appendChild(box);
+  document.body.appendChild(overlay);
+
+  // Store pending state
+  CP={active:true, cellKey, existingConsTk:existingTk, newConsTk:newTk, newCons, vowelToApply:vowelMatra};
+}
+
+function placeConjunct(k, display, ctk1, ctk2, vtk){
+  if(!k) return;
+  // Free old tiles
+  const existing=S.cellData[k];
+  if(existing){
+    if(existing.ctk){const t=getTile(existing.ctk);if(t)t.classList.remove('used','csel');}
+    if(existing.vtk){const t=getTile(existing.vtk);if(t)t.classList.remove('used','vsel');}
+    if(existing.ctk2){const t=getTile(existing.ctk2);if(t)t.classList.remove('used','csel');}
+  }
+  S.cellData[k]={display, ctk:ctk1, ctk2, vtk};
+  const cell=getCell(k);
+  if(cell){const num=cell.querySelector('.cnum');cell.textContent=display;if(num)cell.appendChild(num);cell.classList.add('filled');cell.classList.remove('correct','wrong','sel');}
+  if(ctk1){const t=getTile(ctk1);if(t){t.classList.add('used');t.classList.remove('csel');}}
+  if(ctk2){const t=getTile(ctk2);if(t){t.classList.add('used');t.classList.remove('csel');}}
+  if(vtk){const t=getTile(vtk);if(t){t.classList.add('used');t.classList.remove('vsel');}}
+}
+
+function showToast(msg){
+  const prev=document.getElementById('toast-msg');
+  if(prev) prev.remove();
+  const toast=document.createElement('div');
+  toast.id='toast-msg';
+  toast.style.cssText='position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:8px 18px;border-radius:20px;font-size:13px;z-index:200;pointer-events:none;font-family:inherit';
+  toast.textContent=msg;
+  document.body.appendChild(toast);
+  setTimeout(()=>{if(toast.parentNode)toast.remove();},2000);
+}
+
+function pusaEk(){
+  const k=S.selCell; if(!k||!S.cellData[k]) return;
+  const d=S.cellData[k];
+  if(d.ctk){const t=getTile(d.ctk);if(t)t.classList.remove('used');}
+  if(d.ctk2){const t=getTile(d.ctk2);if(t)t.classList.remove('used');}
+  if(d.vtk){const t=getTile(d.vtk);if(t)t.classList.remove('used');}
+  delete S.cellData[k];
+  const cell=getCell(k);
+  if(cell){const num=cell.querySelector('.cnum');cell.textContent='';if(num)cell.appendChild(num);cell.classList.remove('filled','correct','wrong','sel');}
+  S.selCell=null;
+}
+
+function pusaSagli(){
+  Object.keys(S.cellData).forEach(k=>{
+    const d=S.cellData[k];
+    if(d.ctk){const t=getTile(d.ctk);if(t)t.classList.remove('used');}
+    if(d.ctk2){const t=getTile(d.ctk2);if(t)t.classList.remove('used');}
+    if(d.vtk){const t=getTile(d.vtk);if(t)t.classList.remove('used');}
+    const cell=getCell(k);
+    if(cell){const num=cell.querySelector('.cnum');cell.textContent='';if(num)cell.appendChild(num);cell.classList.remove('filled','correct','wrong','sel');}
+  });
+  S.cellData={}; clearSel(); S.selCell=null;
+}
+
+function aksharMadat(){
+  if(S.hints>=3){showResult('माफ करा!','आम्ही आणखी अक्षर मदत देऊ शकत नाही.',[{label:'ठीक आहे',back:true}]);return;}
+  if(!S.selCell){showToast('आधी चौकोन निवडा'); return;}
+  const k=S.selCell;
+  const ans=S.grid[k].answer;
+
+  // Free any tiles already placed in this cell
+  const existing=S.cellData[k];
+  if(existing){
+    if(existing.ctk){const t=getTile(existing.ctk);if(t)t.classList.remove('used');}
+    if(existing.ctk2){const t=getTile(existing.ctk2);if(t)t.classList.remove('used');}
+    if(existing.vtk){const t=getTile(existing.vtk);if(t)t.classList.remove('used');}
+  }
+
+  // Find and grey out the tiles that make up this answer.
+  // Strategy: scan all unused consonant/vowel tiles and greedily match
+  // the consonants and matras that compose the answer string.
+  const usedTks=greyTilesForAnswer(ans);
+  S.cellData[k]={display:ans, ctk:usedTks[0]||null, ctk2:usedTks[1]||null, vtk:usedTks[2]||null};
+
+  const cell=getCell(k);
+  if(cell){const num=cell.querySelector('.cnum');cell.textContent=ans;if(num)cell.appendChild(num);cell.classList.add('filled');}
+  S.hints++;
+  const mb=document.getElementById('madat-btn');
+  if(mb) mb.textContent=`अक्षर मदत (${3-S.hints})`;
+  S.selCell=null;
+  document.querySelectorAll('.cell:not(.blk)').forEach(c=>c.classList.remove('sel'));
+}
+
+// Grey out tiles that correspond to the letters in a hint answer.
+// Returns array of tile keys that were greyed [ctk, ctk2, vtk].
+function greyTilesForAnswer(ans){
+  // Decompose the answer into constituent consonants and matra
+  // by checking which available tiles match characters in the answer.
+  const matched=[];
+
+  // Collect all available (non-used, non-disabled) consonant and vowel tiles
+  const consTiles=Array.from(document.querySelectorAll('.tile:not(.used):not(.disabled-tile)[id^="t-m_"]'));
+  const vowelTiles=Array.from(document.querySelectorAll('.tile:not(.used):not(.disabled-tile)[id^="t-s_"]'));
+
+  // Build a list of matras present in the answer
+  const matraChars=Object.keys(MATRA);
+
+  // Find matra at end of answer (if any)
+  let foundMatra=null;
+  for(const m of matraChars){
+    const mVal=MATRA[m];
+    if(mVal && ans.endsWith(mVal)){
+      // Find a matching unused vowel tile
+      const vTile=vowelTiles.find(t=>!matched.includes(t.id) && (t.dataset.letter===m || MATRA[t.dataset.letter]===mVal));
+      if(vTile){foundMatra=vTile; break;}
+    }
+  }
+
+  // Find consonants — everything that's not the trailing matra
+  // Strip trailing matra from ans to get the consonant portion
+  let consPart=ans;
+  if(foundMatra){
+    const mVal=MATRA[foundMatra.dataset.letter]||'';
+    if(mVal && consPart.endsWith(mVal)) consPart=consPart.slice(0,consPart.length-mVal.length);
+  }
+
+  // Now match consonant tiles to consPart
+  // For simple consonants: direct match of tile letter to consPart or part of it
+  const foundCons=[];
+  // Try to match each consonant tile against the consonant portion
+  // First try exact match (handles single consonants and pre-built conjuncts like त्का)
+  const exactCons=consTiles.find(t=>!matched.includes(t.id) && t.dataset.letter===consPart);
+  if(exactCons){
+    foundCons.push(exactCons);
+  } else {
+    // Try to find individual tiles that combine to form consPart
+    // e.g. consPart="स्म" → find 'स' tile and 'म' tile
+    for(const tile of consTiles){
+      if(matched.includes(tile.id)) continue;
+      const lt=tile.dataset.letter;
+      if(consPart.includes(lt) || consPart.startsWith(lt)){
+        foundCons.push(tile);
+        matched.push(tile.id);
+        if(foundCons.length>=2) break;
+      }
+    }
+  }
+
+  // Grey out all matched tiles
+  const result=[];
+  foundCons.forEach(t=>{t.classList.add('used');result.push(t.id);});
+  if(foundMatra){foundMatra.classList.add('used');result.push(foundMatra.id);}
+
+  return result;
+}
+
+function sadar(){
+  let allFilled=true, allCorrect=true;
+  Object.keys(S.grid).forEach(k=>{
+    const cell=getCell(k), d=S.cellData[k]; if(!cell)return;
+    if(!d){allFilled=false;cell.classList.add('wrong');return;}
+    if(d.display===S.grid[k].answer){cell.classList.add('correct');cell.classList.remove('wrong','filled');}
+    else{cell.classList.add('wrong');cell.classList.remove('correct','filled');allCorrect=false;}
+  });
+  if(!allFilled){showResult('अपूर्ण!','काही चौकोने अजून रिकामे आहेत. सर्व भरा.',[{label:'ठीक आहे',back:true}]);return;}
+  if(allCorrect){
+    const msg=S.hints===0
+      ?'तुमचे उत्तर अचूक आहे! अक्षर मदत न घेता सोडवल्याबद्दल अभिनंदन!'
+      :'तुमचे उत्तर अचूक आहे! '+S.hints+' अक्षर मदत घेऊन सोडवल्याबद्दल अभिनंदन!';
+    showResult('फार छान! 🎉',msg,[{label:'परत मुख्य मेनू',main:true}]);
+  } else {
+    if(S.hints<3){
+      showResult('चुकले!','तुमचे उत्तर चुकलेले आहे. पुन्हा प्रयत्न करा. ('+(3-S.hints)+' अक्षर मदत शिल्लक)',[{label:'पुन्हा प्रयत्न',back:true}]);
+    } else {
+      showResult('चुकले!','तुमचे उत्तर चुकलेले आहे. सर्व मदत संपली.',[{label:'उत्तर दाखवा',rev:true},{label:'परत मुख्य मेनू',main:true}]);
+    }
+  }
+}
+
+function doReveal(){
+  Object.keys(S.grid).forEach(k=>{
+    const ans=S.grid[k].answer;
+    S.cellData[k]={display:ans, ctk:null, ctk2:null, vtk:null};
+    const cell=getCell(k);
+    if(cell){const num=cell.querySelector('.cnum');cell.textContent=ans;if(num)cell.appendChild(num);cell.classList.add('revealed');cell.classList.remove('correct','wrong','filled','sel');}
+  });
+}
+
+function showResult(title,msg,btns){
+  const modal=document.getElementById('result-content'); modal.innerHTML='';
+  const h=document.createElement('h3');h.textContent=title;modal.appendChild(h);
+  const p=document.createElement('p');p.textContent=msg;modal.appendChild(p);
+  const row=document.createElement('div');row.style.cssText='display:flex;gap:8px;justify-content:center;flex-wrap:wrap';
+  btns.forEach(b=>{
+    const btn=document.createElement('button');btn.className='btn btn-p btn-sm';btn.style.fontFamily='inherit';btn.textContent=b.label;
+    btn.onclick=()=>{if(b.rev){doReveal();go('s-puzzle');}else if(b.main)go('s-main');else if(b.back)go('s-puzzle');};
+    row.appendChild(btn);
+  });
+  modal.appendChild(row); go('s-result');
+}
+
+function closeApp(){
+  document.body.innerHTML='<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;font-family:Noto Sans Devanagari,Arial;font-size:18px;color:#8B1A1A;text-align:center;padding:2rem;background:#f5f4f0">शब्दशाही बंद झाली.<br><br>उद्या पुन्हा भेटू! 🙏</div>';
+}
+</script>
+</body>
+</html>
