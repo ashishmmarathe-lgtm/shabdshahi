@@ -31,7 +31,7 @@ body{font-family:'Noto Sans Devanagari',Arial,sans-serif;color:#222;background:#
 .back{font-size:13px;color:#8B1A1A;cursor:pointer;margin-bottom:12px;display:inline-block}
 .back:hover{text-decoration:underline}
 .slbl{font-size:11px;color:#888;font-weight:500;margin-bottom:4px;letter-spacing:0.4px}
-.grid-outer{position:relative;display:inline-block;margin-left:32px;margin-top:22px;margin-bottom:8px}
+.grid-outer{position:relative;display:inline-block;margin-left:34px;margin-top:24px;margin-bottom:8px}
 .grid-ct{display:inline-grid;gap:3px}
 .cell{width:46px;height:46px;border:1.5px solid #bbb;border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:500;position:relative;cursor:pointer;transition:all 0.15s;user-select:none}
 .cell.blk{background:#e8e6e0;border-color:transparent;cursor:default;pointer-events:none}
@@ -390,33 +390,37 @@ function go(id){
   if(existing) existing.remove();
 }
 
-// Auto-number words top-to-bottom, left-to-right by their start cell.
-// A cell gets a number if it is the start of ANY word (across or down).
-// Each unique start cell gets one number; both directions at that cell share it.
+// Assign a unique number to each word, sorted top→bottom left→right.
+// When two words share a start cell, across gets the lower number, down gets the next.
+// Returns a Map from word index → number.
 function autoNumber(p){
-  // Collect all unique start cells sorted top→bottom, left→right
-  const startCells={};
-  p.words.forEach(w=>{
-    const key=w.row+','+w.col;
-    if(!startCells[key]) startCells[key]={row:w.row, col:w.col, dirs:[]};
-    startCells[key].dirs.push(w.dir);
+  // Create sortable list of words with their index
+  const indexed = p.words.map((w,i)=>({w,i}));
+  // Sort: primarily by row, then col, then across before down
+  indexed.sort((a,b)=>{
+    if(a.w.row!==b.w.row) return a.w.row-b.w.row;
+    if(a.w.col!==b.w.col) return a.w.col-b.w.col;
+    // Same cell: across first, then down
+    if(a.w.dir==='across' && b.w.dir==='down') return -1;
+    if(a.w.dir==='down' && b.w.dir==='across') return 1;
+    return 0;
   });
-  const sorted=Object.values(startCells).sort((a,b)=>a.row!==b.row?a.row-b.row:a.col-b.col);
-  const numMap={};
-  sorted.forEach((sc,i)=>{ numMap[sc.row+','+sc.col]=i+1; });
+  const numMap={}; // word index → number
+  indexed.forEach((item,rank)=>{ numMap[item.i]=rank+1; });
   return numMap;
 }
 
 function buildGrid(p){
   const numMap=autoNumber(p);
   const g={};
-  p.words.forEach(w=>{
+  p.words.forEach((w,wi)=>{
     w.cells.forEach((ch,i)=>{
       const r=w.dir==='down'?w.row+i:w.row;
       const c=w.dir==='across'?w.col+i:w.col;
       const k=r+','+c;
-      if(!g[k]) g[k]={answer:ch, num:null};
-      if(i===0) g[k].num=numMap[w.row+','+w.col];
+      if(!g[k]) g[k]={answer:ch, nums:[]};
+      // Each word that starts at this cell contributes its number
+      if(i===0) g[k].nums.push(numMap[wi]);
     });
   });
   return g;
@@ -450,44 +454,39 @@ function renderPuzzle(type){
   const gridEl=document.createElement('div'); gridEl.className='grid-ct';
   gridEl.style.gridTemplateColumns=`repeat(${p.cols},46px)`;
 
+  const cellEls={};
   for(let r=0;r<p.rows;r++) for(let c=0;c<p.cols;c++){
     const cell=document.createElement('div'), k=r+','+c;
     cell.className='cell';
     if(!g[k]){cell.classList.add('blk');}
     else{
       cell.id='c-'+k;
+      cellEls[k]=cell;
       if(!p.namuna) cell.addEventListener('click',()=>onCell(k));
     }
     gridEl.appendChild(cell);
   }
   gridOuter.appendChild(gridEl);
 
-  // Word labels outside grid — using auto-numbering
-  // Group words by start cell so we can combine labels when two words share a start
+  // Word labels — across labels go outside left, down labels go above their column.
+  // Special case: when a down word shares its start cell with an across word,
+  // place the down label as a small badge inside the top-right of that cell.
   const numMap=autoNumber(p);
-  const labelsByCell={};
-  p.words.forEach(w=>{
-    const key=w.row+','+w.col;
-    if(!labelsByCell[key]) labelsByCell[key]={row:w.row, col:w.col, dirs:[]};
-    labelsByCell[key].dirs.push(w.dir);
-  });
-  Object.values(labelsByCell).forEach(sc=>{
-    const num=numMap[sc.row+','+sc.col];
-    // Build label text: e.g. "1→" or "2↓" or "3→↓" if both start here
-    const hasAcross=sc.dirs.includes('across');
-    const hasDown=sc.dirs.includes('down');
-    const arrows=(hasAcross?'→':'')+(hasDown?'↓':'');
+  p.words.forEach((w,wi)=>{
+    const num=numMap[wi];
     const lbl=document.createElement('div');
     lbl.style.cssText='position:absolute;font-size:10px;font-weight:600;color:#8B1A1A;line-height:1;white-space:nowrap;pointer-events:none';
-    lbl.textContent=`${num}${arrows}`;
-    if(hasAcross && !hasDown){
-      // Across only — place to the left of the starting cell
-      lbl.style.top=(sc.row*CELL+18)+'px';
+    if(w.dir==='across'){
+      lbl.textContent=`${num}→`;
+      lbl.style.top=(w.row*CELL+18)+'px';
       lbl.style.left='-28px';
     } else {
-      // Down (or both) — place above the starting cell
+      lbl.textContent=`${num}↓`;
+      // Check if an across word also starts at the same cell
+      const hasAcrossAtSameCell=p.words.some((w2,wi2)=>wi2!==wi&&w2.dir==='across'&&w2.row===w.row&&w2.col===w.col);
+      // Place above the cell — if shared, shift slightly right so it doesn't overlap the → label
       lbl.style.top='-15px';
-      lbl.style.left=(sc.col*CELL+12)+'px';
+      lbl.style.left=(w.col*CELL+(hasAcrossAtSameCell?20:10))+'px';
     }
     gridOuter.appendChild(lbl);
   });
@@ -527,19 +526,12 @@ function renderPuzzle(type){
   }
   wrap.appendChild(ar);
 
-  // शब्दसंकेत — built from auto-numbering + word clues (reuses numMap from above)
+  // शब्दसंकेत — one clue per word in numbered order
   const cs=document.createElement('div'); cs.className='clues-section';
   const clbl=document.createElement('div'); clbl.className='slbl'; clbl.textContent='शब्दसंकेत'; cs.appendChild(clbl);
-
-  // Sort words by their auto-assigned number, then by direction (across before down for same number)
-  const sortedWords=[...p.words].sort((a,b)=>{
-    const na=numMap[a.row+','+a.col], nb=numMap[b.row+','+b.col];
-    if(na!==nb) return na-nb;
-    // Same start cell: across first, then down
-    return a.dir==='across'?-1:1;
-  });
-  sortedWords.forEach(w=>{
-    const num=numMap[w.row+','+w.col];
+  // Sort words by their assigned number for display
+  const sortedWords=p.words.map((w,i)=>({w,num:numMap[i]})).sort((a,b)=>a.num-b.num);
+  sortedWords.forEach(({w,num})=>{
     const arrow=w.dir==='across'?'→':'↓';
     const item=document.createElement('div'); item.className='clue-item';
     const ns=document.createElement('span'); ns.className='clue-num'; ns.textContent=`${num}${arrow}`;
