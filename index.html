@@ -183,7 +183,8 @@ body{font-family:'Noto Sans Devanagari',Arial,sans-serif;color:#222;background:#
 <div style="font-size:28px;margin-bottom:8px">🙏</div>
 <h3>आज एवढेच पुरे!</h3>
 <p>"शब्दशाही" खेळल्याबद्दल धन्यवाद! तुमचा दिवस चांगला जाओ! उद्या पुन्हा भेटू!</p>
-<button class="btn btn-p" onclick="closeApp()">ठीक आहे</button>
+<div id="pure-share" style="margin:12px 0"></div>
+<button class="btn btn-p" onclick="closeApp()" style="margin-top:4px">ठीक आहे</button>
 </div></div>
 </div>
 
@@ -205,7 +206,7 @@ body{font-family:'Noto Sans Devanagari',Arial,sans-serif;color:#222;background:#
 //
 //  EACH WORD NEEDS:
 //    cells — syllables in each box e.g. ['क','ट','क','ट']
-//    dir   — 'across' (→) or 'down' (↓)
+//    dir   — across or down
 //    row   — which row it starts on (0 = top)
 //    col   — which column it starts on (0 = left)
 //    clue  — the शब्दसंकेत (hint) for this word
@@ -219,6 +220,7 @@ const SHABDSHAHI_PUZZLES = {
 
   // ── PUZZLE ENTRY — copy this block to add a new date ─────────────
   "2026-04-02": {
+    no: 1,
     tikode: {
       cols: 4, rows: 4,
       layout: [
@@ -255,6 +257,416 @@ const SHABDSHAHI_PUZZLES = {
       jod: 0
     }
   },
+  "2026-04-03": {
+    no: 2,
+    tikode: {
+      cols: 3, rows: 4,
+      layout: [
+        [1, 1, 1],
+        [0, 1, 0],
+        [0, 1, 0],
+        [1, 1, 1]
+      ],
+      words: [
+        { cells: ['स्व','तं','त्र'],  dir: 'across',   row: 0, col: 0, clue: ' स्वतःचा मालक' },
+        { cells: ['तं','त्र','मं','त्र'], dir: 'down',  row: 0, col: 1, clue: ' पुस्तकांचा आवडता विषय' },
+        { cells: ['वा','त्र','ट'],        dir: 'across',    row: 3, col: 0, clue: 'खोडकर' }
+      ],
+      cons: ['स','व','व','म','ट','त','त','त','त','र','र','र'],
+      swar: ['ा','ं','ं'],
+      jod: 3
+    },
+    chaukode: {
+      cols: 4, rows: 6,
+      layout: [
+        [0, 1, 0, 0],
+        [1, 1, 1, 0],
+        [0, 1, 0, 0],
+        [0, 1, 1, 1],
+        [0, 1, 0, 1],
+        [0, 1, 0, 1]
+      ],
+      words: [
+        { cells: ['आ','का','श','कं','दी','ल'],          dir: 'down', row: 0, col: 1, clue: 'प्रकाश' },
+        { cells: ['अ','का','ली'],      dir: 'across',   row: 1, col: 0, clue: 'काळ नाही वेळ नाही…….' },
+        { cells: ['कं','प','न'],      dir: 'across',   row: 3, col: 1, clue: 'थरथराट' },
+        { cells: ['न','र','क'],  dir: 'down', row: 3, col: 3, clue: 'पाप' }
+      ],
+      cons: ['प','र','न','क','क','क','ल','ल','अ','अ','श','द'],
+      swar: ['ा','ा','ं','ी','ी'],
+      jod: 0
+    }
+  },
+
+
+
+  "2026-04-05": {
+    no: 3,
+    tikode: {
+      cols: 4, rows: 3,
+      layout: [
+        [0,1,1,1],
+        [0,0,1,0],
+        [1,1,1,0]
+      ],
+      words: [
+        { cells: ['दु','पा','र'], dir: 'across', row: 0, col: 1, clue: 'वामकुक्षी' },
+        { cells: ['पा','ल','वी'], dir: 'down', row: 0, col: 2, clue: 'नवीन सुरुवात' },
+        { cells: ['भै','र','वी'], dir: 'across', row: 2, col: 0, clue: 'समाप्त' }
+      ],
+      cons: ['द','प','भ','र','र','ल','व'],
+      swar: ['ा','ी','ु','ै'],
+      jod: 0
+    },
+    chaukode: {
+      cols: 5, rows: 4,
+      layout: [
+        [0,0,1,0,0],
+        [1,1,1,1,1],
+        [1,0,1,0,1],
+        [1,0,0,0,1]
+      ],
+      words: [
+        { cells: ['वा','कु','ल्या'], dir: 'down', row: 0, col: 2, clue: 'चिडवणे' },
+        { cells: ['क','ला','कु','स','र'], dir: 'across', row: 1, col: 0, clue: 'सौंदर्य' },
+        { cells: ['क','वि','ता'], dir: 'down', row: 1, col: 0, clue: 'रवीला सुद्धा न जमलेली गोष्ट' },
+        { cells: ['र','स','ना'], dir: 'down', row: 1, col: 4, clue: 'चवदार गप्पा' }
+      ],
+      cons: ['क','क','त','न','य','र','ल','ल','व','व','स','स'],
+      swar: ['ा','ा','ा','ा','ा','ि','ु'],
+      jod: 1
+    }
+  },
+  "2026-04-06": {
+    no: 4,
+    tikode: {
+      cols: 4, rows: 3,
+      layout: [
+        [0,1,1,1],
+        [0,1,0,0],
+        [1,1,1,1]
+      ],
+      words: [
+        { cells: ['स','हि','ष्णु'], dir: 'across', row: 0, col: 1, clue: 'प्रत्येकाचा सन्मान' },
+        { cells: ['स','क्ष','म'], dir: 'down', row: 0, col: 1, clue: 'मी करू शकतो' },
+        { cells: ['स','म','तो','ल'], dir: 'across', row: 2, col: 0, clue: 'कुठेच न कलणे' }
+      ],
+      cons: ['ण','त','म','ल','ष','स','स','ह','क्ष'],
+      swar: ['ि','ु','ो'],
+      jod: 1
+    },
+    chaukode: {
+      cols: 4, rows: 4,
+      layout: [
+        [0,1,0,1],
+        [0,1,0,1],
+        [1,1,1,1],
+        [0,0,1,0]
+      ],
+      words: [
+        { cells: ['अ','शी','ल'], dir: 'down', row: 0, col: 1, clue: 'वकीली' },
+        { cells: ['पै','ल','ती','र'], dir: 'across', row: 2, col: 0, clue: 'नाविक' },
+        { cells: ['प','गा','र'], dir: 'down', row: 0, col: 3, clue: 'नोकरदार' },
+        { cells: ['ती','क्ष्ण'], dir: 'down', row: 2, col: 2, clue: 'धार' }
+      ],
+      cons: ['अ','ग','ण','त','प','प','र','ल','श','क्ष'],
+      swar: ['ा','ी','ी','ै'],
+      jod: 1
+    }
+  },
+  "2026-04-07": {
+    no: 5,
+    tikode: {
+      cols: 3, rows: 4,
+      layout: [
+        [1,0,0],
+        [1,1,1],
+        [1,0,1],
+        [0,0,1]
+      ],
+      words: [
+        { cells: ['घ','बा','ड'], dir: 'down', row: 0, col: 0, clue: 'डल्ला' },
+        { cells: ['बा','री','क'], dir: 'across', row: 1, col: 0, clue: 'वजन कमी भरणारच' },
+        { cells: ['क','जा','ग'], dir: 'down', row: 1, col: 2, clue: 'भांडण' }
+      ],
+      cons: ['क','ग','घ','ज','ड','ब','र'],
+      swar: ['ा','ा','ी'],
+      jod: 0
+    },
+    chaukode: {
+      cols: 5, rows: 5,
+      layout: [
+        [0,0,0,0,1],
+        [1,0,0,0,1],
+        [1,1,1,1,1],
+        [1,0,0,1,0],
+        [0,0,0,1,0]
+      ],
+      words: [
+        { cells: ['वि','सा','वा'], dir: 'down', row: 1, col: 0, clue: 'साधा आराम' },
+        { cells: ['सा','ख','र','झो','प'], dir: 'across', row: 2, col: 0, clue: 'मधून आराम' },
+        { cells: ['गु','डू','प'], dir: 'down', row: 0, col: 4, clue: 'खोल आराम' },
+        { cells: ['झो','पा','ळा'], dir: 'down', row: 2, col: 3, clue: 'थोडा खेळ थोडा आराम' }
+      ],
+      cons: ['ख','ग','झ','ड','प','प','र','व','व','स','ळ'],
+      swar: ['ा','ा','ा','ा','ि','ु','ू','ो'],
+      jod: 0
+    }
+  },
+
+
+  "2026-04-08": {
+    no: 6,
+    tikode: {
+      cols: 4, rows: 4,
+      layout: [[1,1,1,0],[1,0,0,0],[1,1,1,1],[1,0,0,0]],
+      words: [
+        { cells: ['अ','द्द','ल'], dir: 'across', row: 0, col: 0, clue: 'धडा' },
+        { cells: ['अ','वा','ज','वी'], dir: 'down', row: 0, col: 0, clue: 'कायच्या काय' },
+        { cells: ['ज','न','हि','त'], dir: 'across', row: 2, col: 0, clue: 'भले होऊ दे सर्वांचे' }
+      ],
+      cons: ['अ','ज','त','द','द','न','ल','व','व','ह'],
+      swar: ['ा','ि','ी'],
+      jod: 1
+    },
+    chaukode: {
+      cols: 4, rows: 5,
+      layout: [[0,1,0,0],[1,1,1,0],[0,0,1,0],[1,1,1,0],[0,0,1,0]],
+      words: [
+        { cells: ['प्र','जा'], dir: 'down', row: 0, col: 1, clue: 'राजा' },
+        { cells: ['बा','जा','र'], dir: 'across', row: 1, col: 0, clue: 'गिर्हाईक' },
+        { cells: ['र','ह','दा','री'], dir: 'down', row: 1, col: 2, clue: 'वाहतूक बेट' },
+        { cells: ['उ','म','दा'], dir: 'across', row: 3, col: 0, clue: 'सकारात्मक' }
+      ],
+      cons: ['अ','ज','द','प','ब','म','र','र','र','ह'],
+      swar: ['ा','ा','ा','ी','ु'],
+      jod: 1
+    }
+  },
+  "2026-04-09": {
+    no: 7,
+    tikode: {
+      cols: 4, rows: 4,
+      layout: [[1,0,0,0],[1,0,1,0],[1,1,1,1],[0,0,1,0]],
+      words: [
+        { cells: ['फ','र','शी'], dir: 'down', row: 0, col: 0, clue: 'जमिनीचे पांघरूण' },
+        { cells: ['शी','त','पे','टी'], dir: 'across', row: 2, col: 0, clue: 'थंड व्हायला वेळ लागतोच' },
+        { cells: ['र','पे','ट'], dir: 'down', row: 1, col: 2, clue: 'अश्व' }
+      ],
+      cons: ['ट','ट','त','प','फ','र','र','श'],
+      swar: ['ी','ी','े'],
+      jod: 0
+    },
+    chaukode: {
+      cols: 4, rows: 4,
+      layout: [[1,1,1,1],[1,0,0,0],[1,1,1,0],[1,0,1,0]],
+      words: [
+        { cells: ['श','हा','नि','शा'], dir: 'down', row: 0, col: 0, clue: 'खात्री' },
+        { cells: ['श','ब्द','शा','ही'], dir: 'across', row: 0, col: 0, clue: '...आम्हीच' },
+        { cells: ['नि','र्ण','य'], dir: 'across', row: 2, col: 0, clue: 'अचूक की कठोर?' },
+        { cells: ['य','त्न'], dir: 'down', row: 2, col: 2, clue: 'वाळूतून तेल काढणारे यंत्र' }
+      ],
+      cons: ['ण','त','द','न','न','ब','य','र','श','श','श','ह','ह'],
+      swar: ['ा','ा','ा','ि','ी'],
+      jod: 3
+    }
+  },
+  "2026-04-10": {
+    no: 8,
+    tikode: {
+      cols: 4, rows: 4,
+      layout: [[0,1,1,1],[0,0,1,0],[1,1,1,0],[0,0,1,0]],
+      words: [
+        { cells: ['सु','त','ळी'], dir: 'across', row: 0, col: 1, clue: 'गाठ मारण्यासाठीचा बॉम्ब' },
+        { cells: ['त','ड','फ','ड'], dir: 'down', row: 0, col: 2, clue: 'घालमेल' },
+        { cells: ['मि','ला','फ'], dir: 'across', row: 2, col: 0, clue: 'एकत्र' }
+      ],
+      cons: ['ड','ड','त','फ','म','ल','स','ळ'],
+      swar: ['ा','ि','ी','ु'],
+      jod: 0
+    },
+    chaukode: {
+      cols: 4, rows: 4,
+      layout: [[0,1,0,0],[1,1,1,1],[0,1,0,1],[0,0,1,1]],
+      words: [
+        { cells: ['सु','र','क्षा'], dir: 'down', row: 0, col: 1, clue: 'कवच' },
+        { cells: ['ब','र','बा','द'], dir: 'across', row: 1, col: 0, clue: 'नायनाट' },
+        { cells: ['द','ग','ड'], dir: 'down', row: 1, col: 3, clue: 'फेक' },
+        { cells: ['ची','ड'], dir: 'across', row: 3, col: 2, clue: 'रागाची भगिनी' }
+      ],
+      cons: ['ग','च','ड','द','ब','ब','र','स','क्ष'],
+      swar: ['ा','ा','ी','ु'],
+      jod: 0
+    }
+  },
+  "2026-04-11": {
+    no: 9,
+    tikode: {
+      cols: 4, rows: 5,
+      layout: [[1,0,0,0],[1,1,1,1],[1,0,1,0],[1,0,1,0],[1,0,1,0]],
+      words: [
+        { cells: ['ख','र','ड','प','ट्टी'], dir: 'down', row: 0, col: 0, clue: 'शाब्दीक धुलाई' },
+        { cells: ['र','वा','न','गी'], dir: 'across', row: 1, col: 0, clue: 'पाठवणी' },
+        { cells: ['न','व','ला','ई'], dir: 'down', row: 1, col: 2, clue: 'नवीन' }
+      ],
+      cons: ['अ','ख','ग','ट','ट','ड','न','प','र','ल','व','व'],
+      swar: ['ा','ा','ी','ी','ी'],
+      jod: 1
+    },
+    chaukode: {
+      cols: 4, rows: 4,
+      layout: [[1,1,1,0],[0,1,0,0],[0,1,1,1],[1,1,0,0]],
+      words: [
+        { cells: ['श','ह','र'], dir: 'across', row: 0, col: 0, clue: 'गर्दी' },
+        { cells: ['ह','र','दा','स'], dir: 'down', row: 0, col: 1, clue: 'याची कथा काय सांगू?' },
+        { cells: ['दा','मि','नी'], dir: 'across', row: 2, col: 1, clue: 'वीज बचत' },
+        { cells: ['कं','स'], dir: 'across', row: 3, col: 0, clue: 'गणितात वारंवार येणारा मामा' }
+      ],
+      cons: ['क','द','न','म','र','र','श','स','ह'],
+      swar: ['ा','ि','ी','ं'],
+      jod: 0
+    }
+  },
+  "2026-04-12": {
+    no: 10,
+    tikode: {
+      cols: 3, rows: 4,
+      layout: [[0,1,0],[1,1,1],[1,0,0],[1,0,0]],
+      words: [
+        { cells: ['शु','ष्क'], dir: 'down', row: 0, col: 1, clue: 'सुकणे' },
+        { cells: ['बा','ष्क','ळ'], dir: 'across', row: 1, col: 0, clue: 'फालतूपणा' },
+        { cells: ['बा','ट','ली'], dir: 'down', row: 1, col: 0, clue: 'पेय' }
+      ],
+      cons: ['क','ट','ब','ल','श','ष','ळ'],
+      swar: ['ा','ी','ु'],
+      jod: 1
+    },
+    chaukode: {
+      cols: 5, rows: 3,
+      layout: [[0,1,1,1,1],[0,0,1,0,1],[1,1,1,0,1]],
+      words: [
+        { cells: ['अ','वि','च','ल'], dir: 'across', row: 0, col: 1, clue: 'घट्ट' },
+        { cells: ['वि','ही','र'], dir: 'down', row: 0, col: 2, clue: 'पाणी' },
+        { cells: ['ल','गा','म'], dir: 'down', row: 0, col: 4, clue: 'वेगावर नियंत्रण' },
+        { cells: ['ग','ब्ब','र'], dir: 'across', row: 2, col: 0, clue: 'श्रीमंत खलनायक' }
+      ],
+      cons: ['अ','ग','ग','च','ब','ब','म','र','ल','व','ह'],
+      swar: ['ा','ि','ी'],
+      jod: 1
+    }
+  },
+  "2026-04-13": {
+    no: 11,
+    tikode: {
+      cols: 3, rows: 3,
+      layout: [[1,1,1],[1,0,0],[1,1,0]],
+      words: [
+        { cells: ['ब','द','ली'], dir: 'across', row: 0, col: 0, clue: 'नोकरी' },
+        { cells: ['ब','ख','र'], dir: 'down', row: 0, col: 0, clue: 'इतिहास' },
+        { cells: ['र','म्य'], dir: 'across', row: 2, col: 0, clue: 'मनपसंत' }
+      ],
+      cons: ['ख','द','ब','म','य','र','ल'],
+      swar: ['ी'],
+      jod: 1
+    },
+    chaukode: {
+      cols: 4, rows: 5,
+      layout: [[1,1,1,1],[0,1,0,0],[1,1,1,1],[1,0,0,0],[1,0,0,0]],
+      words: [
+        { cells: ['सु','वि','चा','र'], dir: 'across', row: 0, col: 0, clue: 'कृतीत आला तरच उपयोग' },
+        { cells: ['वि','ष','य'], dir: 'down', row: 0, col: 1, clue: 'कशावर बोलणार?' },
+        { cells: ['व','य','स्क','र'], dir: 'across', row: 2, col: 0, clue: 'प्रौढ' },
+        { cells: ['व','ळ','सा'], dir: 'down', row: 2, col: 0, clue: 'गोल फिरणे' }
+      ],
+      cons: ['क','च','य','र','र','व','व','ष','स','स','स','ळ'],
+      swar: ['ा','ा','ि','ु'],
+      jod: 1
+    }
+  },
+  "2026-04-14": {
+    no: 12,
+    tikode: {
+      cols: 4, rows: 4,
+      layout: [[0,1,1,1],[0,0,1,0],[1,1,1,0],[0,0,1,0]],
+      words: [
+        { cells: ['स्ति','मि','त'], dir: 'across', row: 0, col: 1, clue: 'आश्चर्य' },
+        { cells: ['मि','ळ','क','त'], dir: 'down', row: 0, col: 2, clue: 'उत्पन्न' },
+        { cells: ['सा','शं','क'], dir: 'across', row: 2, col: 0, clue: 'कशी होणार खात्री?' }
+      ],
+      cons: ['क','त','त','त','म','श','स','स','ळ'],
+      swar: ['ा','ि','ि','ं'],
+      jod: 1
+    },
+    chaukode: {
+      cols: 4, rows: 4,
+      layout: [[0,0,0,1],[1,1,1,1],[0,1,0,1],[1,1,0,1]],
+      words: [
+        { cells: ['ख','स','ख','स'], dir: 'down', row: 0, col: 3, clue: 'पिकल्यावर स्वयंपाकात वापरू नये' },
+        { cells: ['बे','वा','र','स'], dir: 'across', row: 1, col: 0, clue: 'याचा मालक कोण?' },
+        { cells: ['वा','द','ळ'], dir: 'down', row: 1, col: 1, clue: 'सोसाटय़ाचे' },
+        { cells: ['ओ','ळ'], dir: 'across', row: 3, col: 0, clue: 'शब्द हिच्यात लिहिले तर शाही होतात' }
+      ],
+      cons: ['अ','ख','ख','द','ब','र','व','स','स','ळ'],
+      swar: ['ा','े','ो'],
+      jod: 0
+    }
+  },
+  "2026-04-15": {
+    no: 13,
+    tikode: {
+      cols: 5, rows: 3,
+      layout: [[0,0,1,0,0],[0,0,1,1,1],[1,1,1,0,0]],
+      words: [
+        { cells: ['अ','सु','र'], dir: 'down', row: 0, col: 2, clue: 'भीतीदायक' },
+        { cells: ['सु','स','ज्ज'], dir: 'across', row: 1, col: 2, clue: 'पूर्ण तयारी' },
+        { cells: ['ब','धी','र'], dir: 'across', row: 2, col: 0, clue: 'संवेदना' }
+      ],
+      cons: ['अ','ज','ज','ध','ब','र','स','स'],
+      swar: ['ी','ु'],
+      jod: 1
+    },
+    chaukode: {
+      cols: 3, rows: 6,
+      layout: [[0,1,0],[0,1,1],[1,1,0],[1,0,0],[1,0,0],[1,0,0]],
+      words: [
+        { cells: ['अ','श','क्य'], dir: 'down', row: 0, col: 1, clue: 'जमणार नाही!' },
+        { cells: ['श','ह'], dir: 'across', row: 1, col: 1, clue: 'कुरघोडी' },
+        { cells: ['ऐ','क्य'], dir: 'across', row: 2, col: 0, clue: 'संघटना' },
+        { cells: ['ऐ','त','खा','ऊ'], dir: 'down', row: 2, col: 0, clue: 'कामही करायला हवं!' }
+      ],
+      cons: ['अ','अ','अ','क','ख','त','य','श','ह'],
+      swar: ['ा','ू','ै'],
+      jod: 1
+    }
+  },
+  "2026-04-16": {
+    no: 14,
+    tikode: {
+      cols: 3, rows: 5,
+      layout: [[1,1,1],[1,0,0],[1,0,0],[1,1,1],[1,0,0]],
+      words: [
+        { cells: ['भ','रा','व'], dir: 'across', row: 0, col: 0, clue: 'माती' },
+        { cells: ['भ','ग्ना','व','शे','ष'], dir: 'down', row: 0, col: 0, clue: 'उरलेसुरलेले' },
+        { cells: ['शे','क','डो'], dir: 'across', row: 3, col: 0, clue: 'असंख्य' }
+      ],
+      cons: ['क','ग','ड','न','भ','र','व','व','श','ष'],
+      swar: ['ा','ा','े','ो'],
+      jod: 1
+    },
+    chaukode: {
+      cols: 4, rows: 5,
+      layout: [[1,1,1,1],[0,0,1,0],[1,1,1,0],[0,1,0,0],[0,1,0,0]],
+      words: [
+        { cells: ['म','ळ','खा','ऊ'], dir: 'across', row: 0, col: 0, clue: 'धुवायची गरज काय?' },
+        { cells: ['खा','र','ट'], dir: 'down', row: 0, col: 2, clue: 'क्षार' },
+        { cells: ['बा','लं','ट'], dir: 'across', row: 2, col: 0, clue: 'संशयाचे धुके' },
+        { cells: ['लं','पा','स'], dir: 'down', row: 2, col: 1, clue: 'चोर' }
+      ],
+      cons: ['अ','ख','ट','प','ब','म','र','ल','स','ळ'],
+      swar: ['ा','ा','ा','ू','ं'],
+      jod: 0
+    }
+  },
 
   // ── ADD NEW DATES BELOW — paste a copy of the block above ────────
   // "2026-04-03": {
@@ -268,12 +680,12 @@ const SHABDSHAHI_PUZZLES = {
 // ── CONJUNCT LOGIC ───────────────────────────────────────────────
 // When two consonants are selected for same cell, show picker.
 // conjunctMap[c1][c2] = [option1, option2]
-// option = { display: 'क्र', cons1: 'क', halant: '्', cons2: 'र' }
+// option = { display:'क्र', cons1:'क', halant:'्', cons2:'र'}
 // We store possible combinations; user picks one.
 function makeConjuncts(c1, c2) {
-  // Option A: c1 + ् + c2  (c1 is base, c2 is secondary)
-  // Option B: c2 + ् + c1  (c2 is base, c1 is secondary)
-  return [c1 + '्' + c2, c2 + '्' + c1];
+  // If both consonants are the same, only one conjunct option makes sense
+  if(c1===c2) return [c1+'्'+c2];
+  return [c1+'्'+c2, c2+'्'+c1];
 }
 
 // ── PUZZLE DATA ──────────────────────────────────────────────────
@@ -319,9 +731,21 @@ function getTodaysPuzzles() {
   return { date: dates[0], ...SHABDSHAHI_PUZZLES[dates[0]] };
 }
 
-function makePuzzleEntry(rawData, label, namuna) {
+// Format date as "५ एप्रिल" in Marathi
+function formatDateMarathi(dateStr) {
+  const d = new Date(dateStr);
+  const marathiNums = ['०','१','२','३','४','५','६','७','८','९'];
+  const marathiMonths = ['','जानेवारी','फेब्रुवारी','मार्च','एप्रिल','मे','जून',
+                         'जुलै','ऑगस्ट','सप्टेंबर','ऑक्टोबर','नोव्हेंबर','डिसेंबर'];
+  const day = String(d.getDate()).split('').map(c=>marathiNums[c]||c).join('');
+  const month = marathiMonths[d.getMonth()+1];
+  return `${day} ${month}`;
+}
+
+function makePuzzleEntry(rawData, label, namuna, no) {
+  const fullLabel = no ? `${label} (क्र. ${no})` : label;
   return {
-    label, namuna,
+    label: fullLabel, namuna,
     cols:  rawData.cols,
     rows:  rawData.rows,
     layout:rawData.layout,
@@ -333,10 +757,12 @@ function makePuzzleEntry(rawData, label, namuna) {
 }
 
 const _today = getTodaysPuzzles();
+const _puzzleNo = _today.no || '';
+const _puzzleDateStr = formatDateMarathi(_today.date);
 
 const PD = {
-  tikode:  makePuzzleEntry(_today.tikode,  'आजचे तिकोडे',  false),
-  chaukode:makePuzzleEntry(_today.chaukode,'आजचे चौकोडे', false),
+  tikode:  makePuzzleEntry(_today.tikode,  'आजचे तिकोडे',  false, _puzzleNo),
+  chaukode:makePuzzleEntry(_today.chaukode,'आजचे चौकोडे', false, _puzzleNo),
 
   // ── नमुना तिकोडे ──
   namuna_ti: {
@@ -382,12 +808,16 @@ const MATRA={
 
 let S={};
 let CP={active:false, cellKey:null, existingConsTk:null, newConsTk:null, newCons:null, vowelToApply:null};
+// Track today's results for share message
+// status: null=not played, 'solved'=correct, 'revealed'=used reveal, 'failed'=wrong
+const SESSION={tikode:{status:null,hints:0}, chaukode:{status:null,hints:0}};
 
 function go(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   const existing=document.getElementById('conjunct-overlay');
   if(existing) existing.remove();
+  if(id==='s-pure') buildShareButton();
 }
 
 // Assign a unique number to each word, sorted top→bottom left→right.
@@ -431,7 +861,8 @@ function startPuzzle(type){
   S={type, grid:buildGrid(p), cellData:{},
      selCons:null, selConsTk:null,
      selMatra:null, selMatraTk:null,
-     selCell:null, hints:0};
+     selCell:null, hints:0,
+     hintCells:new Set()};
   const isNamuna=p.namuna;
   document.getElementById('puzzle-back').textContent=isNamuna?'← परत नमुना कोडी':'← परत मुख्य मेनू';
   document.getElementById('puzzle-back').onclick=()=>go(isNamuna?'s-namuna':'s-main');
@@ -641,8 +1072,8 @@ function combineConsVowel(cons, matraKey){
   const matra=MATRA[matraKey]||matraKey;
   // Special fusions for अ
   const AFUSIONS={'ा':'आ','ि':'इ','ी':'ई','ु':'उ','ू':'ऊ','े':'ए','ै':'ऐ','ो':'ओ','ौ':'औ','ं':'अं'};
-  if(cons==='अ' && AFUSIONS[matra]) return AFUSIONS[matra];
-  if(cons==='अ' && matra==='') return 'अ';
+  if(cons==='अ'&& AFUSIONS[matra]) return AFUSIONS[matra];
+  if(cons==='अ'&& matra==='') return'अ';
   return cons+matra;
 }
 
@@ -711,11 +1142,20 @@ function placeToCell(){
 
 // ── CONJUNCT PICKER ──────────────────────────────────────────────
 function showConjunctPicker(cellKey, existingCons, existingTk, newCons, newTk, vowelMatra){
-  // Remove any existing overlay
   const prev=document.getElementById('conjunct-overlay');
   if(prev) prev.remove();
 
   const options=makeConjuncts(existingCons, newCons);
+  const targetCell=cellKey||S.selCell;
+
+  // If only one option (same consonant twice) — auto-place without showing picker
+  if(options.length===1){
+    const finalDisplay=vowelMatra ? options[0]+(MATRA[vowelMatra]||vowelMatra) : options[0];
+    placeConjunct(targetCell, finalDisplay, existingTk, newTk, vowelMatra?S.selMatraTk:null);
+    clearSel(); S.selCell=null;
+    return;
+  }
+
   const overlay=document.createElement('div');
   overlay.className='conjunct-overlay'; overlay.id='conjunct-overlay';
 
@@ -731,8 +1171,7 @@ function showConjunctPicker(cellKey, existingCons, existingTk, newCons, newTk, v
     btn.className='conjunct-opt'; btn.textContent=finalDisplay; btn.style.fontFamily='inherit';
     btn.onclick=()=>{
       overlay.remove();
-      placeConjunct(cellKey||S.selCell, finalDisplay, existingTk, newTk, vowelMatra?S.selMatraTk:null);
-      // Clear selections after placing
+      placeConjunct(targetCell, finalDisplay, existingTk, newTk, vowelMatra?S.selMatraTk:null);
       clearSel(); S.selCell=null;
     };
     optRow.appendChild(btn);
@@ -746,7 +1185,6 @@ function showConjunctPicker(cellKey, existingCons, existingTk, newCons, newTk, v
   overlay.appendChild(box);
   document.body.appendChild(overlay);
 
-  // Store pending state
   CP={active:true, cellKey, existingConsTk:existingTk, newConsTk:newTk, newCons, vowelToApply:vowelMatra};
 }
 
@@ -808,22 +1246,28 @@ function aksharMadat(){
   const k=S.selCell;
   const ans=S.grid[k].answer;
 
-  // Free any tiles already placed in this cell
-  const existing=S.cellData[k];
-  if(existing){
-    if(existing.ctk){const t=getTile(existing.ctk);if(t)t.classList.remove('used');}
-    if(existing.ctk2){const t=getTile(existing.ctk2);if(t)t.classList.remove('used');}
-    if(existing.vtk){const t=getTile(existing.vtk);if(t)t.classList.remove('used');}
+  // Free any tiles already placed in this cell (wrong content)
+  // but do it AFTER consuming tiles, so they don't get picked up as "free" candidates
+  const existingInHintCell=S.cellData[k]?{...S.cellData[k]}:null;
+
+  // Consume tiles for the hint answer — pass hint cell key so it's excluded from recovery
+  const usedTks=consumeTilesForHint(ans, k);
+
+  // Now free the old tiles from the hint cell (after consumption so they weren't candidates)
+  if(existingInHintCell){
+    if(existingInHintCell.ctk){const t=getTile(existingInHintCell.ctk);if(t)t.classList.remove('used');}
+    if(existingInHintCell.ctk2){const t=getTile(existingInHintCell.ctk2);if(t)t.classList.remove('used');}
+    if(existingInHintCell.vtk){const t=getTile(existingInHintCell.vtk);if(t)t.classList.remove('used');}
   }
 
-  // Find and grey out the tiles that make up this answer.
-  // Strategy: scan all unused consonant/vowel tiles and greedily match
-  // the consonants and matras that compose the answer string.
-  const usedTks=greyTilesForAnswer(ans);
+  // But immediately re-grey any that were also consumed by the hint
+  usedTks.forEach(tk=>{if(tk){const t=getTile(tk);if(t)t.classList.add('used');}});
+
   S.cellData[k]={display:ans, ctk:usedTks[0]||null, ctk2:usedTks[1]||null, vtk:usedTks[2]||null};
+  S.hintCells.add(k); // mark this cell as hint-filled — protect from future recovery
 
   const cell=getCell(k);
-  if(cell){const num=cell.querySelector('.cnum');cell.textContent=ans;if(num)cell.appendChild(num);cell.classList.add('filled');}
+  if(cell){const num=cell.querySelector('.cnum');cell.textContent=ans;if(num)cell.appendChild(num);cell.classList.add('filled');cell.classList.remove('correct','wrong','sel');}
   S.hints++;
   const mb=document.getElementById('madat-btn');
   if(mb) mb.textContent=`अक्षर मदत (${3-S.hints})`;
@@ -831,67 +1275,193 @@ function aksharMadat(){
   document.querySelectorAll('.cell:not(.blk)').forEach(c=>c.classList.remove('sel'));
 }
 
-// Grey out tiles that correspond to the letters in a hint answer.
-// Returns array of tile keys that were greyed [ctk, ctk2, vtk].
-function greyTilesForAnswer(ans){
-  // Decompose the answer into constituent consonants and matra
-  // by checking which available tiles match characters in the answer.
-  const matched=[];
+// ── TILE CONSUMER FOR HINTS ──────────────────────────────────────
+// Decomposes the answer into its tile constituents, then for each:
+//   - Uses a free tile if available
+//   - Otherwise recovers it from a wrongly-placed cell
+// Returns [ctk, ctk2, vtk] of tile IDs consumed by this hint.
+function consumeTilesForHint(ans, hintCellKey){
+  const result=[];
 
-  // Collect all available (non-used, non-disabled) consonant and vowel tiles
-  const consTiles=Array.from(document.querySelectorAll('.tile:not(.used):not(.disabled-tile)[id^="t-m_"]'));
-  const vowelTiles=Array.from(document.querySelectorAll('.tile:not(.used):not(.disabled-tile)[id^="t-s_"]'));
+  // ── Step 1: Decompose answer into constituents ──────────────────
+  // Special case: answer IS a standalone vowel letter (आ, इ, ई, उ, ऊ, ए, ऐ, ओ, औ, अ)
+  // These are formed by अ + vowel tile (e.g. अ+'ा'=आ) or just अ alone
+  const STANDALONE_VOWELS={'आ':'ा','इ':'ि','ई':'ी','उ':'ु','ऊ':'ू','ए':'े','ऐ':'ै','ओ':'ो','औ':'ौ'};
+  let matraLetter=null, matraVal='', consPart=ans;
 
-  // Build a list of matras present in the answer
-  const matraChars=Object.keys(MATRA);
-
-  // Find matra at end of answer (if any)
-  let foundMatra=null;
-  for(const m of matraChars){
-    const mVal=MATRA[m];
-    if(mVal && ans.endsWith(mVal)){
-      // Find a matching unused vowel tile
-      const vTile=vowelTiles.find(t=>!matched.includes(t.id) && (t.dataset.letter===m || MATRA[t.dataset.letter]===mVal));
-      if(vTile){foundMatra=vTile; break;}
-    }
-  }
-
-  // Find consonants — everything that's not the trailing matra
-  // Strip trailing matra from ans to get the consonant portion
-  let consPart=ans;
-  if(foundMatra){
-    const mVal=MATRA[foundMatra.dataset.letter]||'';
-    if(mVal && consPart.endsWith(mVal)) consPart=consPart.slice(0,consPart.length-mVal.length);
-  }
-
-  // Now match consonant tiles to consPart
-  // For simple consonants: direct match of tile letter to consPart or part of it
-  const foundCons=[];
-  // Try to match each consonant tile against the consonant portion
-  // First try exact match (handles single consonants and pre-built conjuncts like त्का)
-  const exactCons=consTiles.find(t=>!matched.includes(t.id) && t.dataset.letter===consPart);
-  if(exactCons){
-    foundCons.push(exactCons);
+  if(ans==='अ'){
+    // Pure अ — just one consonant tile 'अ', no matra
+    consPart='अ';
+  } else if(STANDALONE_VOWELS[ans]){
+    // e.g. आ = अ + ा
+    matraLetter=STANDALONE_VOWELS[ans]; matraVal=STANDALONE_VOWELS[ans];
+    consPart='अ';
   } else {
-    // Try to find individual tiles that combine to form consPart
-    // e.g. consPart="स्म" → find 'स' tile and 'म' tile
-    for(const tile of consTiles){
-      if(matched.includes(tile.id)) continue;
-      const lt=tile.dataset.letter;
-      if(consPart.includes(lt) || consPart.startsWith(lt)){
-        foundCons.push(tile);
-        matched.push(tile.id);
-        if(foundCons.length>=2) break;
+    // Find trailing matra
+    for(const m of Object.keys(MATRA)){
+      const mv=MATRA[m];
+      if(mv && ans.endsWith(mv) && ans.length>mv.length){
+        matraLetter=m; matraVal=mv;
+        consPart=ans.slice(0,ans.length-mv.length);
+        break;
       }
     }
   }
 
-  // Grey out all matched tiles
-  const result=[];
-  foundCons.forEach(t=>{t.classList.add('used');result.push(t.id);});
-  if(foundMatra){foundMatra.classList.add('used');result.push(foundMatra.id);}
+  // Split consonant part into individual consonants
+  // e.g. 'स्म' → ['स','म'],  'क' → ['क']
+  let consLetters=[];
+  if(consPart.includes('्')){
+    consLetters=consPart.split('्').filter(Boolean);
+  } else {
+    consLetters=[consPart];
+  }
 
-  return result;
+  // ── Step 2: Helper functions ────────────────────────────────────
+
+  // Tiles in the current hint cell AND all previously hint-filled cells
+  // must not be treated as free candidates
+  const hintCellTiles=new Set();
+  const hintCellData=S.cellData[hintCellKey]||{};
+  [hintCellData.ctk,hintCellData.ctk2,hintCellData.vtk].filter(Boolean).forEach(t=>hintCellTiles.add(t));
+  S.hintCells.forEach(hk=>{
+    const hd=S.cellData[hk]||{};
+    [hd.ctk,hd.ctk2,hd.vtk].filter(Boolean).forEach(t=>hintCellTiles.add(t));
+  });
+
+  // Find a free (non-used) tile by letter and prefix, excluding hint cell tiles
+  const freeTile=(letter, pfx)=>{
+    return Array.from(document.querySelectorAll(
+      `.tile:not(.used):not(.disabled-tile)[id^="t-${pfx}_"]`
+    )).find(t=>t.dataset.letter===letter && !hintCellTiles.has(t.id.replace(/^t-/,'')))||null;
+  };
+
+  // Find any used tile (not hint-locked) by letter and prefix
+  const usedTile=(letter, pfx)=>{
+    return Array.from(document.querySelectorAll(
+      `.tile.used[id^="t-${pfx}_"]`
+    )).find(t=>t.dataset.letter===letter)||null;
+  };
+
+  // Find which cellData key references a given tile ID (full ID like't-m_0_म')
+  // Skip the hint cell itself — we don't want to recover from the cell we're filling
+  const cellForTile=(tid)=>{
+    const shortId=tid.replace(/^t-/,'');
+    return Object.keys(S.cellData).find(ck=>{
+      if(ck===hintCellKey) return false;    // skip current hint cell
+      if(S.hintCells.has(ck)) return false; // skip previously hint-filled cells
+      const d=S.cellData[ck];
+      return d&&(d.ctk===shortId||d.ctk2===shortId||d.vtk===shortId);
+    })||null;
+  };
+
+  // Remove a specific tile from its wrong cell and update the display.
+  // tid = full element ID e.g. 't-m_0_अ'
+  const recoverFromCell=(wrongKey, tid)=>{
+    const d=S.cellData[wrongKey]; if(!d) return;
+    const shortId=tid.replace(/^t-/,'');
+    const isC1=(d.ctk===shortId), isC2=(d.ctk2===shortId), isV=(d.vtk===shortId);
+    if(!isC1&&!isC2&&!isV) return; // tile not in this cell
+
+    const cellEl=getCell(wrongKey);
+    const numEl=cellEl?cellEl.querySelector('.cnum'):null;
+
+    function setCell(display){
+      if(!cellEl) return;
+      cellEl.textContent=display;
+      if(numEl) cellEl.appendChild(numEl);
+      if(display){ cellEl.classList.add('filled'); cellEl.classList.remove('correct','wrong','sel'); }
+      else { cellEl.classList.remove('filled','correct','wrong','sel'); }
+    }
+
+    function freeTileById(shortTid){
+      if(!shortTid) return;
+      const el=document.getElementById('t-'+shortTid);
+      if(el) el.classList.remove('used','csel','vsel');
+    }
+
+    function getLetter(shortTid){
+      if(!shortTid) return'';
+      const el=document.getElementById('t-'+shortTid);
+      return el?el.dataset.letter:'';
+    }
+
+    function getMatra(shortTid){
+      if(!shortTid) return'';
+      const el=document.getElementById('t-'+shortTid);
+      return el?(MATRA[el.dataset.letter]||''):'';
+    }
+
+    if(isV){
+      // Remove vowel only — consonant(s) stay
+      const mv=getMatra(shortId);
+      const newDisplay=d.display.endsWith(mv)&&mv?d.display.slice(0,d.display.length-mv.length):d.display;
+      d.vtk=null; d.display=newDisplay;
+      setCell(newDisplay);
+
+    } else if(isC1&&!d.ctk2){
+      // Single consonant — clear whole cell, free vowel
+      freeTileById(d.vtk);
+      delete S.cellData[wrongKey];
+      setCell('');
+
+    } else if(isC1&&d.ctk2){
+      // Conjunct, remove c1 keep c2
+      const c2letter=getLetter(d.ctk2);
+      const vm=getMatra(d.vtk);
+      if(!c2letter){
+        freeTileById(d.vtk);
+        delete S.cellData[wrongKey];
+        setCell('');
+      } else {
+        d.ctk=d.ctk2; d.ctk2=null;
+        d.display=c2letter+vm;
+        setCell(d.display);
+      }
+
+    } else if(isC2&&d.ctk){
+      // Conjunct, remove c2 keep c1
+      const c1letter=getLetter(d.ctk);
+      const vm=getMatra(d.vtk);
+      d.ctk2=null;
+      d.display=c1letter+vm;
+      setCell(d.display);
+    }
+  }
+
+  // ── Step 3: Consume each consonant tile ─────────────────────────
+  consLetters.forEach(letter=>{
+    let t=freeTile(letter,'m');
+    if(t){
+      t.classList.add('used'); result.push(t.id.replace(/^t-/,''));
+    } else {
+      // No free tile — recover from a wrong cell
+      const ut=usedTile(letter,'m');
+      if(ut){
+        const wk=cellForTile(ut.id);
+        if(wk) recoverFromCell(wk, ut.id);
+        // Tile stays used for this hint — store its key without t- prefix
+        result.push(ut.id.replace(/^t-/,''));
+      }
+    }
+  });
+
+  // ── Step 4: Consume vowel tile ───────────────────────────────────
+  if(matraLetter){
+    let t=freeTile(matraLetter,'s');
+    if(t){
+      t.classList.add('used'); result.push(t.id.replace(/^t-/,''));
+    } else {
+      const ut=usedTile(matraLetter,'s');
+      if(ut){
+        const wk=cellForTile(ut.id);
+        if(wk) recoverFromCell(wk, ut.id);
+        result.push(ut.id.replace(/^t-/,''));
+      }
+    }
+  }
+
+  return result; // [ctk, ctk2?, vtk?]
 }
 
 function sadar(){
@@ -904,9 +1474,10 @@ function sadar(){
   });
   if(!allFilled){showResult('अपूर्ण!','काही चौकोने अजून रिकामे आहेत. सर्व भरा.',[{label:'ठीक आहे',back:true}]);return;}
   if(allCorrect){
+    // Record positive result for share
+    if(S.type==='tikode'||S.type==='chaukode') SESSION[S.type]={status:'solved',hints:S.hints};
     const msg=S.hints===0
-      ?'तुमचे उत्तर अचूक आहे! अक्षर मदत न घेता सोडवल्याबद्दल अभिनंदन!'
-      :'तुमचे उत्तर अचूक आहे! '+S.hints+' अक्षर मदत घेऊन सोडवल्याबद्दल अभिनंदन!';
+      ?'तुमचे उत्तर अचूक आहे! अक्षर मदत न घेता सोडवल्याबद्दल अभिनंदन!':'तुमचे उत्तर अचूक आहे! '+S.hints+' अक्षर मदत घेऊन सोडवल्याबद्दल अभिनंदन!';
     showResult('फार छान! 🎉',msg,[{label:'परत मुख्य मेनू',main:true}]);
   } else {
     if(S.hints<3){
@@ -918,6 +1489,8 @@ function sadar(){
 }
 
 function doReveal(){
+  // Record as revealed — not eligible for positive share line
+  if(S.type==='tikode'||S.type==='chaukode') SESSION[S.type]={status:'revealed',hints:S.hints};
   Object.keys(S.grid).forEach(k=>{
     const ans=S.grid[k].answer;
     S.cellData[k]={display:ans, ctk:null, ctk2:null, vtk:null};
